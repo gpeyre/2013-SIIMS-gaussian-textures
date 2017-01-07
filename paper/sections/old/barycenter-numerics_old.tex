@@ -1,0 +1,623 @@
+
+\subsection{Numerical Results for Barycenter Mixing}
+
+This section shows some numerical results obtained with the barycenter mixing method with three input textures.
+
+Given the input textures $f^{[0]},f^{[1]},f^{[2]}$, we first learn their Gaussian models (Spot Noise or AR), and then compute the weighted barycenters with the numerical algorithms proposed previously.
+%For the sake of illustration, we display the weight barycenters in the trilinear coordinates $(\rho_1, \rho_2, \rho_3)$, meaning that the weights on the three polygon vertices of the triangle are $(1,0,0)$ $(0,1,0)$ and $(0,0,1)$ and 
+Having three textures, $\rho \in \RR^3$, for the sake of illustration, we display the coordinates $(\rho_1, \rho_2, \rho_3)$ on a triangle, whose vertices correspond to (1,0,0), (0,1,0), and (0,0,1), respectively. Thus, a weight $(\rho_1, \rho_2, \rho_3)$ is a triplet of numbers, each of which is proportional to the directed distance from $(\rho_1, \rho_2, \rho_3)$ to one of the side lines. Each edge of the triangle actually corresponds to a geodesic between two distributions. The trilinear coordinates and the path used in our experiments is illustrated in Figure~\ref{fig-trilinear-coordinates}.
+
+In Figure~\ref{fig-barycenter-gaussian}, we illustrate and compare the barycenters of 2D Gaussian models (each of them corresponds to an ellipse) using different methods, including Euclidean-distance, Rao-distance, and OT-distance respectively.
+We can see that the OT-barycenters navigate the models in a more natural way.
+
+The instances of all SN models along the path in Figure~\ref{fig-trilinear-coordinates} navigated by OT-barycenter can be observed in the four left columns of Figure~\ref{fig-OT-barycenter-SST}. Note how the synthesized textures obtained from the models that are not located at the vertices have mixed texture patterns, and, as we approach an input model, the features of it tend to predominate in the synthesized texture. Given the smoothness of the color transition along the geodesic path, we also believe that the color is being interpolated properly. We would like to note that  this method is also able to reproduce small periodic patterns.
+On the four right columns of Figure~\ref{fig-OT-barycenter-SST}, we show the results obtained with the state of the art method, \emph{Image Melding} by~\cite{ImageMelding12}.
+
+An example of mixing three dynamic textures using the SN model is shown in Figure~\ref{fig:dynamic-barycenter-sn}. Each row corresponds to a single video, where every image is a single frame, ordered from left to right. The first, sixth and last rows are the inputs textures and the others are interpolated with the barycenter mix method.
+This same experiment of mixing three dynamic textures but using the AR model is shown in Figure~\ref{fig:dynamic-barycenter-ar}.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.48 \linewidth]{trilinear-coordinates}
+  \caption{The trilinear coordinates and the path used in our experiments.}
+  \label{fig-trilinear-coordinates}
+\end{figure}
+
+\begin{figure}[ht!]
+  % Requires \usepackage{graphicx}
+  \centering
+  \subfloat[Euclidean barycenter]{
+  \includegraphics[width=0.32 \linewidth]{gaussian-interp-eucl-1e-03.png}
+  }
+  \subfloat[Rao-barycenter]{
+  \includegraphics[width=0.32 \linewidth]{gaussian-interp-rao-1e-03.png}
+  }
+  \subfloat[OT-barycenter]{
+  \includegraphics[width=0.32 \linewidth]{gaussian-interp-ot-1e-03.png}
+  }\\
+
+  \subfloat[Euclidean barycenter]{
+  \includegraphics[width=0.32 \linewidth]{gaussian-interp-eucl-1e-01.png}
+  }
+  \subfloat[Rao-barycenter]{
+  \includegraphics[width=0.32 \linewidth]{gaussian-interp-rao-1e-01.png}
+  }
+  \subfloat[OT-barycenter]{
+  \includegraphics[width=0.32 \linewidth]{gaussian-interp-ot-1e-01.png}
+  }\\
+  \caption{Comparisons of different barycenters of three 2-dimensional Gaussian distributions with the same mean vector but different covariance matrix, $\distr_i = \Nn(m, \Cov_i), i=0,1,2$.
+  (a)-(c)Barycenters of three Gaussian distributions with rank-1 covariance matrices. (d)-(f)Barycenters with full rank covariances.
+Each edge of the triangle actually corresponds to a geodesic between 2-dimensional Gaussian distributions.
+  }
+  \label{fig-barycenter-gaussian}
+\end{figure}
+
+%\begin{figure}[ht!]
+%{\centering
+%    \includegraphics[width=0.076 \linewidth]{1_1.png}
+%    \includegraphics[width=0.076 \linewidth]{2_1.png}
+%    \includegraphics[width=0.076 \linewidth]{3_1.png}
+%    \includegraphics[width=0.076 \linewidth]{4_1.png}
+%    \includegraphics[width=0.076 \linewidth]{5_1.png}
+%    \includegraphics[width=0.076 \linewidth]{6_1.png}
+%    \includegraphics[width=0.076 \linewidth]{7_1.png}
+%    \includegraphics[width=0.076 \linewidth]{8_1.png}
+%    \includegraphics[width=0.076 \linewidth]{9_1.png}
+%    \includegraphics[width=0.076 \linewidth]{10_1.png}
+%    \includegraphics[width=0.076 \linewidth]{11_1.png}
+%    \includegraphics[width=0.076 \linewidth]{12_1.png}
+% \\
+%\vspace{1mm}
+%    \includegraphics[width=0.076 \linewidth]{1_2.png}
+%    \includegraphics[width=0.076 \linewidth]{2_2.png}
+%    \includegraphics[width=0.076 \linewidth]{3_2.png}
+%    \includegraphics[width=0.076 \linewidth]{4_2.png}
+%    \includegraphics[width=0.076 \linewidth]{5_2.png}
+%    \includegraphics[width=0.076 \linewidth]{6_2.png}
+%    \includegraphics[width=0.076 \linewidth]{7_2.png}
+%    \includegraphics[width=0.076 \linewidth]{8_2.png}
+%    \includegraphics[width=0.076 \linewidth]{9_2.png}
+%    \includegraphics[width=0.076 \linewidth]{10_2.png}
+%    \includegraphics[width=0.076 \linewidth]{11_2.png}
+%    \includegraphics[width=0.076 \linewidth]{12_2.png}
+% \\
+%\vspace{1mm}
+%    \includegraphics[width=0.076 \linewidth]{1_3.png}
+%    \includegraphics[width=0.076 \linewidth]{2_3.png}
+%    \includegraphics[width=0.076 \linewidth]{3_3.png}
+%    \includegraphics[width=0.076 \linewidth]{4_3.png}
+%    \includegraphics[width=0.076 \linewidth]{5_3.png}
+%    \includegraphics[width=0.076 \linewidth]{6_3.png}
+%    \includegraphics[width=0.076 \linewidth]{7_3.png}
+%    \includegraphics[width=0.076 \linewidth]{8_3.png}
+%    \includegraphics[width=0.076 \linewidth]{9_3.png}
+%    \includegraphics[width=0.076 \linewidth]{10_3.png}
+%    \includegraphics[width=0.076 \linewidth]{11_3.png}
+%    \includegraphics[width=0.076 \linewidth]{12_3.png}
+%\\
+%\vspace{1mm}
+%     \includegraphics[width=0.076 \linewidth]{1_4.png}
+%    \includegraphics[width=0.076 \linewidth]{2_4.png}
+%    \includegraphics[width=0.076 \linewidth]{3_4.png}
+%    \includegraphics[width=0.076 \linewidth]{4_4.png}
+%    \includegraphics[width=0.076 \linewidth]{5_4.png}
+%    \includegraphics[width=0.076 \linewidth]{6_4.png}
+%    \includegraphics[width=0.076 \linewidth]{7_4.png}
+%    \includegraphics[width=0.076 \linewidth]{8_4.png}
+%    \includegraphics[width=0.076 \linewidth]{9_4.png}
+%    \includegraphics[width=0.076 \linewidth]{10_4.png}
+%    \includegraphics[width=0.076 \linewidth]{11_4.png}
+%    \includegraphics[width=0.076 \linewidth]{12_4.png}
+% \\
+%\vspace{1mm}
+%    \includegraphics[width=0.076 \linewidth]{1_5.png}
+%    \includegraphics[width=0.076 \linewidth]{2_5.png}
+%    \includegraphics[width=0.076 \linewidth]{3_5.png}
+%    \includegraphics[width=0.076 \linewidth]{4_5.png}
+%    \includegraphics[width=0.076 \linewidth]{5_5.png}
+%    \includegraphics[width=0.076 \linewidth]{6_5.png}
+%    \includegraphics[width=0.076 \linewidth]{7_5.png}
+%    \includegraphics[width=0.076 \linewidth]{8_5.png}
+%    \includegraphics[width=0.076 \linewidth]{9_5.png}
+%    \includegraphics[width=0.076 \linewidth]{10_5.png}
+%    \includegraphics[width=0.076 \linewidth]{11_5.png}
+%    \includegraphics[width=0.076 \linewidth]{12_5.png}
+% \\
+%   \includegraphics[width=0.98 \linewidth]{trilinear-geodesic.png} \\
+%}
+%\caption{OT-barycenter of different groups of 3 textures.
+%    Each row corresponds to a single experiment whose input textures are shown in Figure~\ref{fig-exemplar-textures}. Notice that the $1$st, $6$th and the last images correspond to $f^{[0]},f^{[1]},f^{[2]}$ respectively. The parameter $\rho=(\rho_1,\rho_2,\rho_3)$ of equation \ref{eq-dfn-barycenter} are defined according to the triangle coordinates of the points in Figure~\ref{fig-trilinear-coordinates}.}
+%\label{fig-OT-barycenter-SST}
+%\end{figure}
+
+\begin{figure}[ht!]
+\vspace{-3mm}
+{\centering
+    \includegraphics[width=0.1 \linewidth]{1_1.png}
+    \includegraphics[width=0.1 \linewidth]{1_2.png}
+    \includegraphics[width=0.1 \linewidth]{1_3.png}
+    %\includegraphics[width=0.1 \linewidth]{1_4.png}
+    \includegraphics[width=0.1 \linewidth]{1_5.png}
+    \hspace{2mm}
+    \includegraphics[width=0.1 \linewidth]{melding/drygrasssand1_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/piedragreen_fabric1_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/greenTextilewood1_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/bluejeanssea1_barycenter.png}
+ \\
+\vspace{1mm}
+    \includegraphics[width=0.1 \linewidth]{2_1.png}
+    \includegraphics[width=0.1 \linewidth]{2_2.png}
+    \includegraphics[width=0.1 \linewidth]{2_3.png}
+    %\includegraphics[width=0.1 \linewidth]{2_4.png}
+    \includegraphics[width=0.1 \linewidth]{2_5.png}
+    \hspace{2mm}
+    \includegraphics[width=0.1 \linewidth]{melding/drygrasssand2_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/piedragreen_fabric2_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/greenTextilewood2_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/bluejeanssea2_barycenter.png}
+ \\
+\vspace{1mm}
+    \includegraphics[width=0.1 \linewidth]{3_1.png}
+    \includegraphics[width=0.1 \linewidth]{3_2.png}
+    \includegraphics[width=0.1 \linewidth]{3_3.png}
+    %\includegraphics[width=0.1 \linewidth]{3_4.png}
+    \includegraphics[width=0.1 \linewidth]{3_5.png}
+    \hspace{2mm}
+    \includegraphics[width=0.1 \linewidth]{melding/drygrasssand3_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/piedragreen_fabric3_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/greenTextilewood3_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/bluejeanssea3_barycenter.png}
+ \\
+\vspace{1mm}
+    \includegraphics[width=0.1 \linewidth]{4_1.png}
+    \includegraphics[width=0.1 \linewidth]{4_2.png}
+    \includegraphics[width=0.1 \linewidth]{4_3.png}
+    %\includegraphics[width=0.1 \linewidth]{4_4.png}
+    \includegraphics[width=0.1 \linewidth]{4_5.png}
+    \hspace{2mm}
+    \includegraphics[width=0.1 \linewidth]{melding/drygrasssand4_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/piedragreen_fabric4_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/greenTextilewood4_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/bluejeanssea4_barycenter.png}
+ \\
+\vspace{1mm}
+    \includegraphics[width=0.1 \linewidth]{5_1.png}
+    \includegraphics[width=0.1 \linewidth]{5_2.png}
+    \includegraphics[width=0.1 \linewidth]{5_3.png}
+    %\includegraphics[width=0.1 \linewidth]{5_4.png}
+    \includegraphics[width=0.1 \linewidth]{5_5.png}
+    \hspace{2mm}
+    \includegraphics[width=0.1 \linewidth]{melding/drygrasssand5_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/piedragreen_fabric5_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/greenTextilewood5_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/bluejeanssea5_barycenter.png}
+ \\
+\vspace{1mm}
+    \includegraphics[width=0.1 \linewidth]{6_1.png}
+    \includegraphics[width=0.1 \linewidth]{6_2.png}
+    \includegraphics[width=0.1 \linewidth]{6_3.png}
+    %\includegraphics[width=0.1 \linewidth]{6_4.png}
+    \includegraphics[width=0.1 \linewidth]{6_5.png}
+    \hspace{2mm}
+    \includegraphics[width=0.1 \linewidth]{melding/drygrasssand6_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/piedragreen_fabric6_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/greenTextilewood6_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/bluejeanssea6_barycenter.png}
+ \\
+\vspace{1mm}
+    \includegraphics[width=0.1 \linewidth]{7_1.png}
+    \includegraphics[width=0.1 \linewidth]{7_2.png}
+    \includegraphics[width=0.1 \linewidth]{7_3.png}
+    %\includegraphics[width=0.1 \linewidth]{7_4.png}
+    \includegraphics[width=0.1 \linewidth]{7_5.png}
+    \hspace{2mm}
+    \includegraphics[width=0.1 \linewidth]{melding/drygrasssand7_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/piedragreen_fabric7_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/greenTextilewood7_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/bluejeanssea7_barycenter.png}
+ \\
+\vspace{1mm}
+    \includegraphics[width=0.1 \linewidth]{8_1.png}
+    \includegraphics[width=0.1 \linewidth]{8_2.png}
+    \includegraphics[width=0.1 \linewidth]{8_3.png}
+    %\includegraphics[width=0.1 \linewidth]{8_4.png}
+    \includegraphics[width=0.1 \linewidth]{8_5.png}
+    \hspace{2mm}
+    \includegraphics[width=0.1 \linewidth]{melding/drygrasssand8_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/piedragreen_fabric8_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/greenTextilewood8_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/bluejeanssea8_barycenter.png}
+ \\
+\vspace{1mm}
+    \includegraphics[width=0.1 \linewidth]{9_1.png}
+    \includegraphics[width=0.1 \linewidth]{9_2.png}
+    \includegraphics[width=0.1 \linewidth]{9_3.png}
+    %\includegraphics[width=0.1 \linewidth]{9_4.png}
+    \includegraphics[width=0.1 \linewidth]{9_5.png}
+    \hspace{2mm}
+    \includegraphics[width=0.1 \linewidth]{melding/drygrasssand9_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/piedragreen_fabric9_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/greenTextilewood9_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/bluejeanssea9_barycenter.png}
+ \\
+\vspace{1mm}
+    \includegraphics[width=0.1 \linewidth]{10_1.png}
+    \includegraphics[width=0.1 \linewidth]{10_2.png}
+    \includegraphics[width=0.1 \linewidth]{10_3.png}
+    %\includegraphics[width=0.1 \linewidth]{10_4.png}
+    \includegraphics[width=0.1 \linewidth]{10_5.png}
+    \hspace{2mm}
+    \includegraphics[width=0.1 \linewidth]{melding/drygrasssand10_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/piedragreen_fabric10_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/greenTextilewood10_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/bluejeanssea10_barycenter.png}
+ \\
+\vspace{1mm}
+    \includegraphics[width=0.1 \linewidth]{11_1.png}
+    \includegraphics[width=0.1 \linewidth]{11_2.png}
+    \includegraphics[width=0.1 \linewidth]{11_3.png}
+    %\includegraphics[width=0.1 \linewidth]{11_4.png}
+    \includegraphics[width=0.1 \linewidth]{11_5.png}
+    \hspace{2mm}
+    \includegraphics[width=0.1 \linewidth]{melding/drygrasssand11_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/piedragreen_fabric11_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/greenTextilewood11_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/bluejeanssea11_barycenter.png}
+ \\
+\vspace{1mm}
+    \includegraphics[width=0.1 \linewidth]{12_1.png}
+    \includegraphics[width=0.1 \linewidth]{12_2.png}
+    \includegraphics[width=0.1 \linewidth]{12_3.png}
+    %\includegraphics[width=0.1 \linewidth]{12_4.png}
+    \includegraphics[width=0.1 \linewidth]{12_5.png}
+    \hspace{2mm}
+    \includegraphics[width=0.1 \linewidth]{melding/drygrasssand12_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/piedragreen_fabric12_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/greenTextilewood12_barycenter.png}
+    \includegraphics[width=0.1 \linewidth]{melding/bluejeanssea12_barycenter.png}
+    \\
+%\vspace{1mm}
+%   \includegraphics[width=0.98 \linewidth]{trilinear-geodesic.png} \\
+}
+\caption{Barycenter texture mixing of three texture data sets.
+    Each column corresponds to a single experiment whose input textures are shown in Figure~\ref{fig-exemplar-textures}.
+    Note that the $1$st, $6$th and the last rows correspond to $f^{[0]},f^{[1]},f^{[2]}$ respectively.
+    The parameter $\rho=(\rho_1,\rho_2,\rho_3)$ of Equation \ref{eq-dfn-barycenter} are defined according to the triangle coordinates of the points in Figure~\ref{fig-trilinear-coordinates}.
+    The left $4$ columns are the results obtained by OT, and the right $4$ columns are those obtained by Image Melding~\cite{ImageMelding12}. }
+\label{fig-OT-barycenter-SST}
+\end{figure}
+
+%
+%\begin{figure}[ht!]
+%{\centering
+%    \includegraphics[width=0.076 \linewidth]{melding/drygrasssand1_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/drygrasssand2_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/drygrasssand3_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/drygrasssand4_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/drygrasssand5_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/drygrasssand6_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/drygrasssand7_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/drygrasssand8_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/drygrasssand9_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/drygrasssand10_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/drygrasssand11_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/drygrasssand12_barycenter.png}
+% \\
+%\vspace{1mm}
+%    \includegraphics[width=0.076 \linewidth]{melding/piedragreen_fabric1_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/piedragreen_fabric2_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/piedragreen_fabric3_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/piedragreen_fabric4_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/piedragreen_fabric5_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/piedragreen_fabric6_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/piedragreen_fabric7_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/piedragreen_fabric8_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/piedragreen_fabric9_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/piedragreen_fabric10_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/piedragreen_fabric11_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/piedragreen_fabric12_barycenter.png}
+% \\
+%\vspace{1mm}
+%    \includegraphics[width=0.076 \linewidth]{melding/greenTextilewood1_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/greenTextilewood2_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/greenTextilewood3_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/greenTextilewood4_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/greenTextilewood5_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/greenTextilewood6_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/greenTextilewood7_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/greenTextilewood8_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/greenTextilewood9_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/greenTextilewood10_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/greenTextilewood11_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/greenTextilewood12_barycenter.png}
+%\\
+%\vspace{1mm}
+%     \includegraphics[width=0.076 \linewidth]{melding/bluejeanssand1_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssand2_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssand3_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssand4_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssand5_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssand6_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssand7_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssand8_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssand9_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssand10_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssand11_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssand12_barycenter.png}
+% \\
+%\vspace{1mm}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssea1_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssea2_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssea3_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssea4_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssea5_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssea6_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssea7_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssea8_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssea9_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssea10_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssea11_barycenter.png}
+%    \includegraphics[width=0.076 \linewidth]{melding/bluejeanssea12_barycenter.png}
+% \\
+%   \includegraphics[width=0.98 \linewidth]{trilinear-geodesic.png} \\
+%}
+%\caption{Texture barycenter obtained by Image Melding~\cite{ImageMelding12} of three textures.
+%    Each row corresponds to a single experiment whose input textures are shown as columns in Figure~\ref{fig-exemplar-textures}, respectively. The parameter $\rho=(\rho_1,\rho_2,\rho_3)$ of equation \ref{eq-dfn-barycenter} are defined according to the triangle coordinates of the points in Figure~\ref{fig-trilinear-coordinates}.}
+%\label{fig-OT-barycenter-SST-melding}
+%\end{figure}
+
+
+\begin{figure}[ht!]
+{\centering
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-1/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-1/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-1/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-1/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-1/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-1/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-1/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-1/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-2/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-2/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-2/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-2/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-2/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-2/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-2/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-2/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-3/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-3/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-3/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-3/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-3/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-3/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-3/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-3/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-4/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-4/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-4/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-4/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-4/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-4/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-4/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-4/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-5/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-5/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-5/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-5/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-5/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-5/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-5/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-5/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-6/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-6/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-6/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-6/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-6/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-6/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-6/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-6/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-7/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-7/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-7/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-7/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-7/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-7/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-7/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-7/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-8/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-8/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-8/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-8/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-8/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-8/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-8/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-8/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-9/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-9/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-9/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-9/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-9/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-9/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-9/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-9/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-10/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-10/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-10/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-10/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-10/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-10/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-10/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-10/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-11/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-11/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-11/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-11/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-11/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-11/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-11/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-11/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-12/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-12/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-12/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-12/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-12/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-12/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-12/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix2-t-12/waterfall3_-ocean_De_-fire_sm15.png} \\
+    }
+    \caption{
+        Example of $3$ dynamic textures mixing using SN models. The first, sixth and last row correspond to $f^{[0]}$, $f^{[1]}$ and $f^{[2]}$ respectively, being the order of the frames from left to right.
+    }
+\label{fig:dynamic-barycenter-sn}
+\end{figure}
+
+
+\begin{figure}[ht!]
+{\centering
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-1/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-1/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-1/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-1/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-1/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-1/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-1/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-1/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-2/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-2/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-2/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-2/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-2/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-2/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-2/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-2/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-3/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-3/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-3/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-3/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-3/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-3/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-3/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-3/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-4/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-4/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-4/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-4/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-4/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-4/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-4/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-4/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-5/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-5/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-5/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-5/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-5/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-5/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-5/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-5/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-6/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-6/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-6/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-6/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-6/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-6/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-6/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-6/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-7/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-7/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-7/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-7/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-7/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-7/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-7/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-7/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-8/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-8/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-8/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-8/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-8/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-8/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-8/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-8/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-9/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-9/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-9/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-9/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-9/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-9/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-9/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-9/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-10/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-10/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-10/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-10/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-10/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-10/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-10/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-10/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-11/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-11/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-11/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-11/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-11/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-11/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-11/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-11/waterfall3_-ocean_De_-fire_sm15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-12/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-12/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-12/waterfall3_-ocean_De_-fire_sm5.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-12/waterfall3_-ocean_De_-fire_sm7.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-12/waterfall3_-ocean_De_-fire_sm9.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-12/waterfall3_-ocean_De_-fire_sm11.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-12/waterfall3_-ocean_De_-fire_sm13.png}
+    \includegraphics[width=0.105 \linewidth]{./vMix3-t-12/waterfall3_-ocean_De_-fire_sm15.png} \\
+    }
+    \caption{
+        Example of $3$ dynamic textures mixing using AR models. The first, sixth and last row correspond to $f^{[0]}$, $f^{[1]}$ and $f^{[2]}$ respectively, being the order of the frames from left to right.
+    }
+\label{fig:dynamic-barycenter-ar}
+\end{figure}

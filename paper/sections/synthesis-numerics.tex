@@ -1,0 +1,149 @@
+
+\section{Numerical Results for Synthesis}
+\label{sec-numerics-1}
+
+In this section, following a brief introduction of the experimental setup, we discuss the performance of spot noise textons, AR textons and compare them with  the results obtained by Doretto \textit{et al.} in~\cite{Doretto04spatiallyhomogeneous}.
+
+\begin{figure*}[ht!]
+% \vspace{-3.mm}
+\subfloat[2 consecutive frames of the exemplar textures video $f_0$: \emph{goldenlines} and \emph{waterfall}]{
+  \centering
+  \includegraphics[width=0.24 \linewidth]{goldenlines_exemplar1.png}
+  \includegraphics[width=0.24\linewidth]{goldenlines_exemplar3.png}
+  \includegraphics[width=0.24\linewidth]{waterfall_De_exemplar212.png}
+  \includegraphics[width=0.24\linewidth]{waterfall_De_exemplar213.png}
+  }\\
+\subfloat[2 frames of the diagonal elements ($K_{r,r}$, $K_{g,g}$, $K_{b,b}$) of the learned 3D canonical SN-texton.]{
+  \centering
+  \includegraphics[width=0.24 \linewidth]{goldenlines_exemplarsn_texton51.png}
+  \includegraphics[width=0.24 \linewidth]{goldenlines_exemplarsn_texton52.png}
+  \includegraphics[width=0.24 \linewidth]{waterfall_De_exemplar2sn_texton51.png}
+  \includegraphics[width=0.24 \linewidth]{waterfall_De_exemplar2sn_texton52.png}
+} \\
+\subfloat[The diagonal elements ($(A,L)_{r,r}$, $(A,L)_{g,g}$, $(A,L)_{b,b}$) of the learned 2D AR-texton.]{
+  \includegraphics[width=0.24 \linewidth]{goldenlines_exemplaran_texton_A.png}
+  \includegraphics[width=0.24 \linewidth]{goldenlines_exemplaran_texton_L.png}
+  \includegraphics[width=0.24 \linewidth]{waterfall_De_exemplar2an_texton_A.png}
+  \includegraphics[width=0.24 \linewidth]{waterfall_De_exemplar2an_texton_L.png}
+}  \\
+\caption{Learned textons from two stationary dynamic textures. (a) two consecutive frames of the original texture videos. 
+(b)two consecutive frames of the diagonal elements ($K_{r,r}$, $K_{g,g}$, $K_{b,b}$) of the learned canonical SN-texton; (c)  diagonal elements $(A_{r,r}, A_{g,g}, A_{b,b})$ and $(L_{r,r}, L_{g,g}, L_{b,b})$ of the learned canonical AR-texton.
+ }
+\label{fig:textons-example1}
+\end{figure*}
+
+\paragraph{Experimental setup}
+
+Even though there are several dynamic texture data sets, such as for instance DynTex~\cite{dyntex} and DynTex++~\cite{GhanemA07}, none is available both for the analysis and synthesis of SDTs. In order to test the synthesis algorithm, we compiled a data set of SDTs containing $35$ different color dynamic textures. Each sequence is of spatial size $64 \times 64$ pixels and with $100$ frames.
+
+%  It includes dynamic sequences of {\it boiling water, clouds, fire, fog, fountain, waterfalll, snow, ocean waves, ponds, and steam}. 
+% ~\cite{dyntexture_rpn_demo}
+
+\paragraph{Comparing SN and AR textons}
+
+Figure~\ref{fig:textons-example1} presents the SN-textons and AR-textons learned from the two exemplar textures {\it moving goldenlines} and {\it waterfall}. It shows the  fast decay in space and time of the learned textons.  Observe that the SN-textons are six 3-D space-time filters, while the AR-textons are six 2-D spatial filters. Instead of showing all the 6 filters, (b) and (c) only display the diagonal elements (r, g, and b for the red, green and blue channels, which results in a color image) of the textons. 
+
+\paragraph{Comparing SN and AR synthesis}
+
+It is important to realize that over the spatial domain, SN and AR covariances have the same type of covariance parameterization. The main difference lies in the temporal domain. The SN is a non-parametric model with many degrees of freedom, while the AR(1) model performs an aggressive compression of the representation using only two parameters per time course and frequency. To our surprise, we found that the AR(1) model is still capable of capturing all the dynamics we considered in our data set, and in particular we found no noticeable difference with respect to the results obtained with the SN method. This is illustrated on Figure~\ref{fig:experiment2}. Our partial understanding is that AR(1) perfectly captures translational behavior, which is somehow dominant in most natural videos. 
+
+
+\begin{figure*}[ht!]
+\centering
+% \vspace{-3.mm}
+\subfloat[3 consecutive frames of the input videos.]{
+  \includegraphics[width=0.16\linewidth]{waterfall_De_exemplar211.png}
+  \includegraphics[width=0.16\linewidth]{waterfall_De_exemplar212.png}
+  \includegraphics[width=0.16\linewidth]{waterfall_De_exemplar213.png}
+  \includegraphics[width=0.16\linewidth]{fire_exemplar20.png}
+  \includegraphics[width=0.16\linewidth]{fire_exemplar21.png}
+  \includegraphics[width=0.16\linewidth]{fire_exemplar22.png}
+  } \\
+\vspace{-3.mm}
+\subfloat[3 frames of SN-texton synthesis]{
+  \includegraphics[width=0.16\linewidth]{waterfall_De_exemplar2rpn1.png}
+  \includegraphics[width=0.16\linewidth]{waterfall_De_exemplar2rpn2.png}
+  \includegraphics[width=0.16\linewidth]{waterfall_De_exemplar2rpn3.png}
+  \includegraphics[width= 0.16\linewidth]{fire_exemplarsn_texton69.png}
+  \includegraphics[width= 0.16\linewidth]{fire_exemplarsn_texton71.png}
+  \includegraphics[width= 0.16\linewidth]{fire_exemplarsn_texton73.png}
+  } \\
+\vspace{-3.mm}
+\subfloat[3 frames of AR-texton synthesis]{
+  \includegraphics[width=0.16\linewidth]{waterfall_De_exemplar2AR51.png}
+  \includegraphics[width=0.16\linewidth]{waterfall_De_exemplar2AR52.png}
+  \includegraphics[width=0.16\linewidth]{waterfall_De_exemplar2AR53.png}
+  \includegraphics[width= 0.16\linewidth]{fire_exemplarAR51.png}
+  \includegraphics[width= 0.16\linewidth]{fire_exemplarAR54.png}
+  \includegraphics[width= 0.16\linewidth]{fire_exemplarAR57.png}
+} \\
+\vspace{-3.mm}
+\subfloat[3 frames of synthesis with~\cite{Doretto04spatiallyhomogeneous}.]{
+  \includegraphics[width= 0.16\linewidth]{waterfall_De5.png}
+  \includegraphics[width= 0.16\linewidth]{waterfall_De10.png}
+  \includegraphics[width= 0.16\linewidth]{waterfall_De15.png}
+  \includegraphics[width= 0.16\linewidth]{fire_exemplar1.png}
+  \includegraphics[width= 0.16\linewidth]{fire_exemplar4.png}
+  \includegraphics[width= 0.16\linewidth]{fire_exemplar7.png}
+  } \\
+\caption{Results on stationary dynamic texture synthesis using SN-textons, AR-textons and the method proposed by Doretto et al.~\cite{Doretto04spatiallyhomogeneous}. }
+\label{fig:experiment2}
+\end{figure*}
+
+\paragraph{Comparing AR-textons with LDS~\cite{Doretto04spatiallyhomogeneous}}
+
+We now compare our method with the one proposed in~\cite{Doretto04spatiallyhomogeneous}, which uses multiscale autoregressive models.
+Figure~\ref{fig:experiment2} shows the synthesized results for two dynamic sequences: {\it waterfall} and {\it fire} (courtesy of Doretto et al.~\cite{Doretto04spatiallyhomogeneous}). Both models capture the temporal and spatial stationarity of the exemplar. They produce quite similar results on these sequences and they both exhibit artifacts when the input texture is not stationary, as can be observed on the results of the fire sequence, Figure~\ref{fig:experiment2} (right).
+
+% It is worth noticing that the method in~\cite{Doretto04spatiallyhomogeneous} uses parametric models to infer the locally averaged spatial structure of the training sequence, while our method uses nonparametric model. In particular, compared with the LDS model~\cite{Doretto04spatiallyhomogeneous}, in which case the $A$ matrix is of size $N \times N$, the proposed AR-texton are much more compact.
+
+
+
+% More results and videos can be found in the supplemented materials. %~\url{http://www.enst.fr/~xia/dynTextures.html}.
+
+%
+%\begin{figure*}[ht!]
+%\centering
+%\subfloat[]
+%{    \includegraphics[height= 0.143\linewidth]{waterfall_De_exemplar.png} }
+%\subfloat[3 synthesized frames of (a)]
+%{   \includegraphics[width=0.143\linewidth]{waterfall_De_exemplar210.png}
+%    \includegraphics[width=0.143\linewidth]{waterfall_De_exemplar211.png}
+%    \includegraphics[width=0.143\linewidth]{waterfall_De_exemplar212.png}
+%}
+%\subfloat[3 synthesized frames of (a) by~\cite{Doretto04spatiallyhomogeneous}]
+%{   \includegraphics[height= 0.143\linewidth]{waterfall_De5.png}
+%    \includegraphics[height= 0.143\linewidth]{waterfall_De10.png}
+%    \includegraphics[height= 0.143\linewidth]{waterfall_De15.png}
+%}
+%\\
+%\vspace{-3.5mm}
+%\subfloat[]
+%{    \includegraphics[height= 0.143\linewidth]{fountain_exemplar.png} }
+%\subfloat[3 synthesized frames (d)]
+%{   \includegraphics[height= 0.143\linewidth]{fountain_exemplarsyn5.png}
+%    \includegraphics[height= 0.143\linewidth]{fountain_exemplarsyn10.png}
+%    \includegraphics[height= 0.143\linewidth]{fountain_exemplarsyn15.png}
+%}
+%\subfloat[3 synthesized frames of (d) by~\cite{Doretto04spatiallyhomogeneous}]
+%{   \includegraphics[height= 0.143\linewidth]{fountain_De5.png}
+%    \includegraphics[height= 0.143\linewidth]{fountain_De10.png}
+%    \includegraphics[height= 0.143\linewidth]{fountain_De15.png}
+%}
+%\\
+%\vspace{-3.5mm}
+%\subfloat[]
+%{    \includegraphics[height= 0.143\linewidth]{fire_exemplar.png} }
+%\subfloat[3 synthesized frames (g)]
+%{   \includegraphics[height= 0.143\linewidth]{fire_exemplarAR51.png}
+%    \includegraphics[height= 0.143\linewidth]{fire_exemplarAR54.png}
+%    \includegraphics[height= 0.143\linewidth]{fire_exemplarAR57.png}
+%}
+%\subfloat[3 synthesized frames (g) by~\cite{Doretto04spatiallyhomogeneous}]
+%{   \includegraphics[height= 0.143\linewidth]{fire_exemplar1.png}
+%    \includegraphics[height= 0.143\linewidth]{fire_exemplar4.png}
+%    \includegraphics[height= 0.143\linewidth]{fire_exemplar7.png}
+%}
+%\caption{Comparisons between our method and the method proposed in~\cite{Doretto04spatiallyhomogeneous}. (a), (d), and (g) present three frames of the spatially homogeneous dynamic textures {\it waterfall}, {\it fountain}, and {\it fire1}, respectively. Three synthesized frames are displayed for each dynamic texture by our method and the method of~\cite{Doretto04spatiallyhomogeneous}, in (b)(e)(h) and (c)(f)(i), respectively. Both the exemplar textures and the synthesized results of~\cite{Doretto04spatiallyhomogeneous} are provided by the authors of~\cite{Doretto04spatiallyhomogeneous}. For the complete synthesized sequences, refer to the online demo at~\cite{dyntexture_rpn_demo}. }
+%\label{fig:experiment2}
+%\end{figure*}

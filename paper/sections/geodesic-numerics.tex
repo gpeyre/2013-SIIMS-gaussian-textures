@@ -1,0 +1,143 @@
+\subsection{Numerical Results for Geodesics}
+
+In this section, we show some results obtained with the OT-geodesic mixing method.
+Note that we experiment both on static and dynamic textures.
+%Figure~\ref{fig-exemplar-textures} displays the static textures used in these experiments.
+%\begin{figure}[ht!]
+%  \centering
+%  \includegraphics[width=0.1 \linewidth]{piedra_exemplar.png}
+%  \includegraphics[width=0.1 \linewidth]{bluejeans_exemplar.png}
+%  \includegraphics[width=0.1 \linewidth]{sand_exemplar.png}
+%  \includegraphics[width=0.1 \linewidth]{cork_exemplar.png}
+%  \includegraphics[width=0.1 \linewidth]{wood_exemplar.png}
+%  \includegraphics[width=0.1 \linewidth]{greenTextile_exemplar.png}
+%  \includegraphics[width=0.1 \linewidth]{green_fabric_exemplar.png}
+%  \includegraphics[width=0.1 \linewidth]{drygrass_exemplar.png}
+%  \includegraphics[width=0.1 \linewidth]{bluefur_exemplar.png}\\
+%  \caption{Exemplar textures used for texture mixing.  }
+%  \label{fig-exemplar-textures}
+%\end{figure}
+
+\paragraph{Mixing static SN models}
+
+Each row of Figure~\ref{fig-OT-mixing-static} corresponds to a single experiment. Given two input textures $(\tilde f_0,\tilde f_1)$, the texture models $\distr(f_i)_{i=0,1}$ are learned for both input, and then several models $\distr(f_{\rho})$ were interpolated along the path between models $\distr(f_0)$ and $\distr(f_1)$.
+Detailed numerical procedures are given in Algorithm~\ref{alg-sn-geodesic}.
+In this experiment, we take $ \rho \in  \{ \frac{k}{8}, k=0, 1,2,\ldots,8\}$. The resulting images are shown on the first row of Figure~\ref{fig-OT-mixing-static}. Note that the images on the extreme left and right of each row correspond to $ \rho=0,1$ respectively, which are instances of the original models. We would like to point out how these instances are perceptually similar to the original input textures.
+
+With respect to the interpolated models and their instances, there are two effects that we would like to underline. First of all, the color changes gradually as we move along the geodesic path, see Figure~\ref{fig-OT-mixing-static} for examples. Secondly, there is a continuous morphing between the spatial patterns of the exemplar due to a change in the covariance matrix. As we move along the geodesic path, the models mix in a different proportion the spatial patterns of the original textures.  This is specially visible in the first rows, where diagonal features progressively replace the isotropic structure of the grass.
+
+We compare our results with those achieved by the state-of-the-art method proposed in~\cite{ImageMelding12} named \emph{Image Melding}, which mixes two textures by a patch-based approach. More details about the implementations can be found in~\cite{ImageMelding12}, and we use the same $\rho$ values as mentioned before.
+Figure~\ref{fig-OT-mixing-static}(b) displays the texture mixing results by Image Melding.
+Comparing with the results in Figure~\ref{fig-OT-mixing-static}(a), we can see that the interpolation of color or spatial patterns is worse than the one obtained by the proposed OT-geodesic method. Note however that~\cite{ImageMelding12} reports mixing results on structured images, which cannot be handled by our approach.
+
+
+\newcommand{\DispTexture}[2]{ % base, ext
+\includegraphics[width=0.115\linewidth]{#1-0-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-1-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-2-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-3-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-4-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-5-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-6-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-7-#2}%
+}
+\newcommand{\DispTextureR}[2]{ % base, ext
+\includegraphics[width=0.115\linewidth]{#1-7-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-6-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-5-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-4-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-3-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-2-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-1-#2}&%
+\includegraphics[width=0.115\linewidth]{#1-0-#2} %
+}
+\newcommand{\TabHeight}[1]{
+	 \begin{tabular}{@{}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{\hspace{1mm}}@{}}
+		#1
+    \end{tabular}
+}
+
+\begin{figure}[ht!]
+  \begin{center}
+  \TabHeight{
+  	$\rho=0$ &
+	$\rho={1}/{7}$ &
+	$\rho={2}/{7}$ &
+	$\rho={3}/{7}$ &
+	$\rho={4}/{7}$ &
+	$\rho={5}/{7}$ &
+	$\rho={6}/{7}$ &
+	$\rho= 1$ \\[1mm]
+  	\DispTexture{OT-geodesic-bluejeans-drygrass-t-0}{1}\\
+  	\DispTexture{OT-geodesic-wood-greenTextile-t-0}{1}\\
+  	\DispTexture{OT-geodesic-bluefur-sand-t-0}{1}\\
+  }
+   %
+	(a) static texture mixing of spot noise models.
+	%
+	\TabHeight{
+  	\DispTextureR{bluejeansdrygrass-t-0}{1_melding}\\
+  	\DispTextureR{woodgreenTextile-t-0}{1_melding}\\
+  	\DispTextureR{bluefursand-t-0}{1_melding}\\
+  	}
+	%
+	(b) static texture mixing via Image Melding.
+  	\end{center}
+  \caption{Results obtained with OT texture mixing. In (a), each texture was synthesized from the SN models along the OT-geodesic. Comparison results of texture mixing using Image Melding~\cite{ImageMelding12} are displayed in (b).
+  }
+  \label{fig-OT-mixing-static}
+\end{figure}
+
+
+
+\paragraph{Mixing dynamic AR and SN  models}
+Figure~\ref{fig:dynamic-mix-sn} shows a similar experiment for dynamic textures. 
+Each row corresponds to a single video, where every image is a single frame, ordered from left to right. 
+%The first and last rows are the input videos and the two middle ones are instances of interpolated models obtained with the geodesic mix method.
+%In this experiment, we take $ \rho=\{ \frac{k}{7}, k=0,1,\ldots, 7 \}$.
+%Note how the colors, spatial patterns, and movements are interpolate
+%Figure~\ref{fig:dynamic-mix-sn} shows a similar experiment for dynamic textures. 
+(a) shows the results obtained with SN models, and (b) shows the results obtained with AR models. Given two input textures $(\tilde f_0, \tilde f_1 )$, both AR texture models $(a_i, b_i)_{i=0,1}$ are learned, and then several $(a_{\rho}, b_{\rho})$ are interpolated along the path between these two models. We take $ \rho=\{ \frac{k}{7}, k=0,1,\ldots, 7 \}$. Detailed numerical procedures are given in Algorithm~\ref{alg-ar-geodesic}.
+Note how the colors, spatial patterns, and motion are interpolated, and how both methods produce visually similar results.
+
+
+\renewcommand{\DispTexture}[2]{ % base, ext
+	\includegraphics[width=0.115\linewidth]{#1-0/#2}&
+	\includegraphics[width=0.115\linewidth]{#1-1/#2}&
+	\includegraphics[width=0.115\linewidth]{#1-2/#2}&
+	\includegraphics[width=0.115\linewidth]{#1-3/#2}&
+	\includegraphics[width=0.115\linewidth]{#1-4/#2}&
+	\includegraphics[width=0.115\linewidth]{#1-5/#2}&
+	\includegraphics[width=0.115\linewidth]{#1-6/#2}&
+	\includegraphics[width=0.115\linewidth]{#1-7/#2}%
+}
+
+\begin{figure}[ht!]
+{\centering
+  \TabHeight{
+    	$\rho=0$ &
+	$\rho={1}/{7}$ &
+	$\rho={2}/{7}$ &
+	$\rho={3}/{7}$ &
+	$\rho={4}/{7}$ &
+	$\rho={5}/{7}$ &
+	$\rho={6}/{7}$ &
+	$\rho= 1$ \\[1mm]
+    \DispTexture{./vMix1-t}{waterfall3_exemplar-fire_smoke_exem1}\\
+    \DispTexture{./vMix1-t}{waterfall3_exemplar-fire_smoke_exem3}\\
+    \DispTexture{./vMix1-t}{waterfall3_exemplar-fire_smoke_exem5}\\
+   }
+		(a) dynamic texture mixing of SN models. \\
+	\TabHeight{
+    \DispTexture{./vMix2-t}{waterfall3_exemplar-fire_smoke_exem1}\\
+    \DispTexture{./vMix2-t}{waterfall3_exemplar-fire_smoke_exem3}\\
+    \DispTexture{./vMix2-t}{waterfall3_exemplar-fire_smoke_exem5}\\
+    }
+		(b) dynamic texture mixing of AR models. \\
+}
+\caption{Example of dynamic texture mixing of SN and AR models.
+From left to right, the weight $\rho$ takes values in $\{\frac{k}{7}, k = 0, 1, \ldots, 7\}$.
+From top to bottom, 3 frames of each synthesized dynamic texture are displayed.
+}
+\label{fig:dynamic-mix-sn}
+\end{figure}

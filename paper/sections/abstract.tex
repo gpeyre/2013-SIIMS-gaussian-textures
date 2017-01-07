@@ -1,0 +1,17 @@
+
+\begin{abstract}
+This paper addresses the problem of modeling textures with Gaussian processes, focusing on color stationary textures that can be either static or dynamic. We detail two classes of Gaussian processes parameterized by a small number of compactly supported linear filters, the so-called \emph{textons}. The first class extends the spot noise (SN) texture model to the dynamical setting, where the space-time texton is estimated to fit a translation-invariant covariance from an input exemplar. The second class is a specialization of the auto-regressive (AR) dynamic texture method to the setting of space and time stationary textures. This enables one to parameterize the covariance with only a few spatial textons. The simplicity of these models allows us to tackle a more complex problem, texture mixing, which, in our case, amounts to interpolate between Gaussian models. We use optimal transport to derive geodesic paths and barycenters between the models learned from an input data set. This enables the user to navigate inside the set of texture models and perform texture synthesis from each new interpolated model. Numerical results on a library of exemplars show the ability of our method to generate arbitrary interpolations among unstructured natural textures. Moreover, experiments on a database of stationary textures show that the methods, despite their simplicity, provide state-of-the-art results on stationary dynamical texture synthesis and mixing.
+\end{abstract}
+
+\begin{keywords}
+	Texture analysis, texture synthesis, texture mixing, Gaussian process, dynamic textures, optimal transport.
+\end{keywords}
+
+\begin{AMS}
+15A15, 15A09, 15A23
+\end{AMS}
+
+\pagestyle{myheadings}
+\thispagestyle{plain}
+%\markboth{TEX PRODUCTION AND V. A. U. THORS}{SIAM MACRO EXAMPLES}
+

@@ -1,0 +1,12 @@
+\section{Conclusion}
+
+
+This paper has introduced two compact representations of stationary static and dynamic textures. These representations correspond to two different parameterizations of Gaussian processes. Experimental results demonstrate that the proposed methods are quite effective at describing sequences which exhibit temporal and spatial regularity. Moreover, the computational complexity of the proposed algorithms for texture synthesis is low. While both methods tend to produce visually similar results on our numerical examples, their parameterization, and thus their typical usage, are different. Only the SN model can be used for static textures. The AR model is probably the most appropriate for dynamic textures with simple temporal patterns, since it offers the most compact representation using only 2-D textons. On the other hand, the SN model requires the computation of a full 3-D texton, but is able to capture arbitrary Gaussian models. 
+
+The second main contribution of this paper is a new method for texture mixing that enables the creation of new textures from a set of exemplars. It is based on optimal transport, which provides a mathematically sound way to interpolate between distributions. A major feature of this method is that it is robust to rank-deficient covariances which is crucial given that our texture model is inherently rank-deficient, and rank-deficient models appear often when learning from a small number of exemplars. The numerical results show how the method successfully merges the visual features of the original images into new complex patterns. 
+
+These contributions 
+pave the way to
+%open the door to
+ several potential future works beside texture synthesis and mixing. The computation of compact texture representations could be used for dynamic textures recognition and video compression. The ability to perform model averaging is a key ingredient for un-supervised learning algorithms (e.g. for clustering tasks), such as for instance in the celebrated k-means algorithm. 
+

@@ -1,0 +1,214 @@
+\usepackage[colorlinks=true,linkcolor=red,citecolor=blue]{hyperref}
+\usepackage{amsmath,amsfonts,amssymb,amsbsy,bbm}
+\usepackage[english]{babel} %,francais ,french
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{subfig}
+%\usepackage{float}
+
+
+%%% For algorithms %%%
+
+\usepackage[ruled,vlined]{algorithm2e}
+
+
+%\usepackage{algorithmic}
+% \usepackage{algorithmicx}
+% \usepackage{algorithm}
+% \usepackage{algpseudocode}
+%\usepackage[ruled,vlined]{algorithm2e}
+% \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+% \renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\algostep}[1]{\item \textbf{#1.}}
+\newcommand{\Require}{ \noindent{\bf{Input:}} }
+\newcommand{\Ensure}{ \noindent{\bf{Output:}} }
+
+
+
+\newcommand{\eq}[1]{\begin{equation*}#1\end{equation*} }
+\newcommand{\eql}[1]{\begin{equation}#1\end{equation} }
+\newcommand{\enscond}[2]{ \left\{ #1 \;:\; #2 \right\} }
+
+
+%% Symboles avec double lignes
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\GG}{\mathbb{G}}
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\PP}{\mathbb{P}}
+
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\VV}{\mathbb{V}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\KK}{\mathbb{K}}
+\newcommand{\UU}{\mathbb{U}}
+\newcommand{\EE}{\mathbb{E}}
+%% Symboles arrondis
+\newcommand{\Aa}{\mathcal{A}}
+\newcommand{\Bb}{\mathcal{B}}
+\newcommand{\Cc}{\mathcal{C}}
+\newcommand{\Dd}{\mathcal{D}}
+\newcommand{\Ee}{\mathcal{E}}
+\newcommand{\Ff}{\mathcal{F}}
+\newcommand{\Gg}{\mathcal{G}}
+\newcommand{\Hh}{\mathcal{H}}
+\newcommand{\Ii}{\mathcal{I}}
+\newcommand{\Jj}{\mathcal{J}}
+\newcommand{\Kk}{\mathcal{K}}
+\newcommand{\Ll}{\mathcal{L}}
+\newcommand{\Mm}{\mathcal{M}}
+\newcommand{\Nn}{\mathcal{N}}
+\newcommand{\Oo}{\mathcal{O}}
+\newcommand{\Pp}{\mathcal{P}}
+\newcommand{\Qq}{\mathcal{Q}}
+\newcommand{\Rr}{\mathcal{R}}
+\newcommand{\Ss}{\mathcal{S}}
+\newcommand{\Tt}{\mathcal{T}}
+\newcommand{\Uu}{\mathcal{U}}
+\newcommand{\Vv}{\mathcal{V}}
+\newcommand{\Ww}{\mathcal{W}}
+\newcommand{\Xx}{\mathcal{X}}
+\newcommand{\Yy}{\mathcal{Y}}
+\newcommand{\Zz}{\mathcal{Z}}
+\newcommand{\E}{\operatorname{E}}
+\newcommand{\qwhereq}{ \quad \text{where} \quad }
+\newcommand{\qwithq}{ \quad \text{with} \quad }
+\newcommand{\qandq}{ \quad \text{and} \quad }
+\newcommand{\qifq}{ \quad \text{if} \quad }
+\newcommand{\umin}[1]{\underset{#1}{\min}\;}
+\newcommand{\uinf}[1]{\underset{#1}{\inf}\;}
+\DeclareMathOperator{\argmin}{argmin}
+\DeclareMathOperator{\argmax}{argmax}
+\newcommand{\uargmin}[1]{\underset{#1}{\argmin}\;}
+\newcommand{\uargmax}[1]{\underset{#1}{\argmax}\;}
+\newcommand{\choice}[1]{ %
+	\left\{ %
+		\begin{array}{l} #1 \end{array} %
+	\right. }
+
+\newcommand{\abs}[1]{| #1 |}
+\newcommand{\dist}[1]{d_{\text{#1}}}
+\DeclareMathOperator{\tr}{tr}
+
+
+\DeclareMathOperator{\Img}{Im}
+\DeclareMathOperator{\Ker}{Ker}
+
+% greek
+\newcommand{\al}{\alpha}
+\newcommand{\la}{\lambda}
+\newcommand{\ga}{\gamma}
+\newcommand{\Ga}{\Gamma}
+\newcommand{\La}{\Lambda}
+\newcommand{\si}{\sigma}
+%\newcommand{\Si}{\Sigma}
+\newcommand{\be}{\beta}
+\newcommand{\de}{\delta}
+\newcommand{\De}{\Delta}
+\renewcommand{\phi}{\varphi}
+\renewcommand{\th}{\theta}
+\newcommand{\om}{\omega}
+\newcommand{\Om}{\Omega}
+%\renewcommand{\REQUIRE}{Input}
+\newcommand{\Remark}{\noindent {\em Remark} : }
+
+
+% hat, tilde
+\newcommand{\hf}{\hat f}
+\newcommand{\wtf}{\tilde f}
+\newcommand{\tx}{\tilde x}
+\newcommand{\tb}{\tilde b}
+\newcommand{\ty}{\tilde y}
+\newcommand{\tu}{\tilde u}
+\newcommand{\tv}{\tilde v}
+\newcommand{\tga}{\tilde \ga}
+\newcommand{\tf}{\wt{f}}
+
+%% parenthesis
+\newcommand{\pa}[1]{\left( #1 \right)}
+\newcommand{\bpa}[1]{\big( #1 \big)}
+
+\newcommand{\pe}{\psi}
+\def\d{\delta}
+\def\ds{\displaystyle}
+\def\e{{\epsilon}}
+\def\eb{\bar{\eta}}
+\def\enorm#1{\|#1\|_2}
+\def\Fp{F^\prime}
+\def\fishpack{{FISHPACK}}
+\def\fortran{{FORTRAN}}
+\def\gmres{{GMRES}}
+\def\gmresm{{\rm GMRES($m$)}}
+\def\Kc{{\cal K}}
+\def\norm#1{\|#1\|}
+\def\wb{{\bar w}}
+\def\zb{{\bar z}}
+
+
+
+\newcommand{\todo}[1]{\textbf{TODO:} \textit{#1}}
+
+
+
+\newcommand{\pstar}{\overline{\star}}
+\newcommand{\dotp}[2]{\langle #1,\,#2\rangle}
+\newcommand{\distr}{\mu}
+\def \etal{{\it et. al }}
+\def \ie{\emph{i.e. }}
+\DeclareMathOperator{\Real}{Real}
+\DeclareMathOperator{\Id}{Id}
+\newcommand{\foralls}{\forall \,}
+
+\def\twoauthors#1#2#3#4{\gdef\@address{}
+   \gdef\@name{\begin{tabular}{@{}c@{}}
+        {\em #1} \\ \\
+        #2\relax
+   \end{tabular}\hskip 1in\begin{tabular}{@{}c@{}}
+        {\em #3} \\ \\
+        #4\relax
+\end{tabular}}}
+
+
+% format A4
+%\usepackage{vmargin}
+%\setpapersize{A4}
+
+% some definitions of bold math italics to make typing easier.
+% They are used in the corollary.
+
+\def\bfE{\mbox{\boldmath$E$}}
+\def\bfG{\mbox{\boldmath$G$}}
+
+%%%%  SPECIFIC TO THIS PAPER %%%%
+
+% space-time voxel domain
+\newcommand{\U}{U}
+% space only voxel domain
+\newcommand{\Ux}{U_s}
+% correlation matrix
+\newcommand{\Cov}{\Cc}
+% correlation convolution kernel
+\newcommand{\cov}{C}
+% mean
+\newcommand{\Mean}{{\frak m}}
+% mean vector (constant
+\newcommand{\mean}{m}
+% texton matrix
+\newcommand{\Texton}{\Kk}
+% correlation convolution kernel
+\newcommand{\texton}{K}
+% same distribution
+\newcommand{\DistributedAs}{\sim}
+% drawn from a distribution
+\newcommand{\SampledFrom}{\equiv}
+% standard deviation
+\newcommand{\std}{\si}
+% spot-noise distribution
+\newcommand{\sn}[1]{\Ss(#1)}
+% AR texton
+\newcommand{\TextonAR}{\Ll}
+\newcommand{\textonAR}{L}
+% Barycenter
+\DeclareMathOperator{\Bary}{Bar}

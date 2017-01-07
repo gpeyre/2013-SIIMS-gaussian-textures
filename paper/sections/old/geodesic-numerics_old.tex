@@ -1,0 +1,273 @@
+\subsection{Numerical Results for Geodesics}
+
+In this section, we show some results obtained with the OT-geodesic mix method.
+Note that we experiment both on static and dynamic textures.
+Figure~\ref{fig-exemplar-textures} displays the static textures used in these experiments.
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.1 \linewidth]{piedra_exemplar.png}
+  \includegraphics[width=0.1 \linewidth]{bluejeans_exemplar.png}
+  \includegraphics[width=0.1 \linewidth]{sand_exemplar.png}
+  \includegraphics[width=0.1 \linewidth]{cork_exemplar.png}
+  \includegraphics[width=0.1 \linewidth]{wood_exemplar.png}
+  \includegraphics[width=0.1 \linewidth]{greenTextile_exemplar.png}
+  \includegraphics[width=0.1 \linewidth]{green_fabric_exemplar.png}
+  \includegraphics[width=0.1 \linewidth]{drygrass_exemplar.png}
+  \includegraphics[width=0.1 \linewidth]{bluefur_exemplar.png}\\
+  \caption{Exemplar textures used for texture mixing.  }
+  \label{fig-exemplar-textures}
+\end{figure}
+
+\paragraph{Mixing two Spot Noise models}
+Each row of Figure~\ref{fig-OT-mixing-static} corresponds to a single experiment. Given two input textures ($f^{[0]}$ and $f^{[1]}$), the texture models $\distr(f^{[i]})_{i=0,1}$ were learned for both, and then several models $\distr(f^{[t]})$ where interpolated along the path between model $\distr(f^{[0]})$ and $\distr(f^{[1]})$.
+Detailed numerical procedures are given in Algorithm~\ref{alg-sn-geodesic}. %\ref{alg:mixing-two-exemplar-sn}.
+In this experiment, we take $t=\{ \frac{k}{20}, k=0, 1,2,\ldots,20 \}$, the image of which is illustrated as the first row of Figure~\ref{fig-OT-mixing-static}.  Note that the images on the extreme left and right of each row correspond to $t=0,1$ respectively, which are instances of the original models. We would like to point out how these instances are perceptually similar to the original input textures.
+
+With respect to the interpolated models and their instances, there are two effects that we would like the reader to note. First of all, the color changes gradually as we move along the geodesic path, see the first, second, and last rows of Figure~\ref{fig-OT-mixing-static} for examples. Secondly, there is a continuous morphing between the spacial patterns of the exemplar due to a change in the covariance matrix. As we move along the geodesic path, the models mix in a different proportion the spatial patterns of the original textures.  This is specially visible in the first and second rows, where diagonal features progressively replaces the isotropic structures of the sand.
+
+We compare our results with those achieved by a state-of-the-art method, named \emph{Image Melding}, proposed in~\cite{ImageMelding12}, which mixes two textures by a patch-based approach. More details about the implementations can be found in~\cite{ImageMelding12}, and we use the same $t$ values as mentioned before.
+Figure~\ref{fig-melding-static} displays the texture mixing results by Image Melding.
+Comparing with the results in Figure~\ref{fig-OT-mixing-static}, we can see that the interpolation of either color or spatial patterns are worse than those obtained by the proposed OT-geodesic method.
+
+An example of dynamic texture mixing can be observed in Figure~\ref{fig:dynamic-mix-sn}. Each row corresponds to a single video, where every image is a single frame, ordered from left to right. The first and last rows are the input videos and the two middle ones  are instances of interpolated models obtained with the geodesic mix method.
+In this experiment, we take $t=\{ \frac{k}{8}, k=0,1,\ldots, 8 \}$.
+Note how the colors, spatial patterns, and movements are interpolated.
+
+
+\paragraph{Mixing two AR dynamic models}
+Figure~\ref{fig:dynamic-mix-ar} shows a similar experiment for AR models. Given two input textures ($f^{[0]}$ and $f^{[1]}$), both AR texture models $(a_i, b_i)_{i=0,1}$ were learned, and then several $(a_t, b_t)$ were interpolated along the path between these two models.
+Detailed numerical procedures are given in Algorithm~\ref{alg-ar-geodesic}. %alg:mixing-two-exemplar-ar}.
+Observe that it produces similar results, compared with the Spot Noise model results from Figure~\ref{fig:dynamic-mix-sn}.
+
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.98 \linewidth]{t_value_map.png} \\
+  \includegraphics[width=0.98 \linewidth]{OT-geodesic-piedra-bluejeans-t-0-20-1.png} \\
+  \includegraphics[width=0.98 \linewidth]{OT-geodesic-sand-bluejeans-t-0-20-1.png} \\
+  \includegraphics[width=0.98 \linewidth]{OT-geodesic-sand-cork-t-0-20-1.png} \\
+  \includegraphics[width=0.98 \linewidth]{OT-geodesic-wood-cork-t-0-20-1.png} \\
+  \includegraphics[width=0.98 \linewidth]{OT-geodesic-wood-greenTextile-t-0-20-1.png}\\
+  \includegraphics[width=0.98 \linewidth]{OT-geodesic-greenTextile-green_fabric-t-0-20-1.png} \\
+  \includegraphics[width=0.98 \linewidth]{OT-geodesic-green_fabric-drygrass-t-0-20-1.png} \\
+  \includegraphics[width=0.98 \linewidth]{OT-geodesic-bluefur-drygrass-t-0-20-1.png}\\
+  \caption{Results obtained with OT texture mixing. Each texture was synthesized from the SN models on the OT-geodesic. For each row, the extreme left and the right are the two exemplar textures, corresponding to $t=0$ and $t=1$ on the geodesic.
+  }
+  \label{fig-OT-mixing-static}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=0.98 \linewidth]{t_value_map.png} \\
+  \includegraphics[width=0.98 \linewidth]{bluejeans_exemplarpiedra_exemplar_melding.png} \\
+  \includegraphics[width=0.98 \linewidth]{bluejeans_exemplarsand_melding.png} \\
+  \includegraphics[width=0.98 \linewidth]{cork_exemplarsand_melding.png} \\
+  \includegraphics[width=0.98 \linewidth]{cork_exemplarwood_exemplar_melding.png} \\
+  \includegraphics[width=0.98 \linewidth]{greenTextile_exemplarwood_exemplar_melding.png}\\
+  \includegraphics[width=0.98 \linewidth]{greenTextile_exemplargreen_fabric_exemplar_melding.png} \\
+  \includegraphics[width=0.98 \linewidth]{drygrass_exemplargreen_fabric_exemplar_melding.png} \\
+  \includegraphics[width=0.98 \linewidth]{drygrass_exemplarbluefur_exemplar_melding.png}\\
+  %}
+  \caption{Results of texture mixing using Image Melding~\cite{ImageMelding12}. %Texture are synthesized by Spot Noise model on the OT-geodesic. 
+  For each row, the extreme left and the right are the two exemplar textures, corresponding to $t=0$ and $t=1$ on the geodesic.
+  }
+  \label{fig-melding-static}
+\end{figure}
+
+\begin{figure}[ht!]
+{\centering
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-0/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-0/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-0/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-0/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-0/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-0/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-0/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-0/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-1/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-1/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-1/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-1/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-1/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-1/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-1/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-1/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-2/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-2/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-2/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-2/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-2/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-2/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-2/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-2/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-3/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-3/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-3/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-3/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-3/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-3/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-3/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-3/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-4/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-4/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-4/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-4/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-4/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-4/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-4/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-4/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-5/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-5/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-5/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-5/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-5/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-5/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-5/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-5/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-6/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-6/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-6/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-6/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-6/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-6/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-6/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-6/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-7/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-7/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-7/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-7/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-7/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-7/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-7/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-7/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-8/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-8/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-8/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-8/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-8/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-8/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-8/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix1-t-8/waterfall3_exemplar-fire_smoke_exem15.png} \\
+}
+    \caption{
+        Example of dynamic texture mixing of Spot Noise models. The first and last row correspond to $f^{[0]}$ and $f^{[1]}$ respectively, being the order of the frames from left to right.
+        The central rows are instances of the interpolated dynamic texture models.
+        From top to bottom, the weight $t$ takes value from $\{\frac{k}{8}, k = 0, 1, \ldots, 8\}$.
+    }
+\label{fig:dynamic-mix-sn}
+\end{figure}
+
+\begin{figure}[ht!]
+{\centering
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-0/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-0/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-0/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-0/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-0/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-0/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-0/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-0/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-1/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-1/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-1/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-1/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-1/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-1/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-1/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-1/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-2/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-2/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-2/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-2/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-2/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-2/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-2/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-2/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-3/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-3/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-3/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-3/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-3/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-3/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-3/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-3/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-4/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-4/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-4/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-4/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-4/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-4/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-4/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-4/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-5/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-5/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-5/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-5/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-5/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-5/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-5/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-5/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-6/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-6/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-6/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-6/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-6/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-6/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-6/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-6/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-7/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-7/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-7/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-7/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-7/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-7/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-7/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-7/waterfall3_exemplar-fire_smoke_exem15.png} \\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-8/waterfall3_exemplar-fire_smoke_exem1.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-8/waterfall3_exemplar-fire_smoke_exem3.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-8/waterfall3_exemplar-fire_smoke_exem5.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-8/waterfall3_exemplar-fire_smoke_exem7.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-8/waterfall3_exemplar-fire_smoke_exem9.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-8/waterfall3_exemplar-fire_smoke_exem11.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-8/waterfall3_exemplar-fire_smoke_exem13.png}
+    \includegraphics[width=0.115 \linewidth]{./vMix2-t-8/waterfall3_exemplar-fire_smoke_exem15.png} \\
+}
+    \caption{
+        Example of dynamic texture mixing using AR models. The first and last row correspond to $f^{[0]}$ and $f^{[1]}$ respectively, being the order of the frames from left to right.
+        The central rows are instances of the interpolated dynamic texture models.
+        From top to bottom, the weight $t$ takes value from $\{\frac{k}{8}, k = 0, 1, \ldots, 8\}$.
+    }
+\label{fig:dynamic-mix-ar}
+\end{figure}

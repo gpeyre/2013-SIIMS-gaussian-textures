@@ -1,0 +1,179 @@
+
+\section{Numerical Results for Synthesis}
+\label{sec-numerics-1}
+
+In this section, following a brief introduction of the experimental setup, we discuss the performance of Spot Noise textons, AR textons and compare them with  the results obtained by Doretto et al. in~\cite{Doretto04spatiallyhomogeneous}.
+
+\paragraph{Experimental setup}
+Though there are several dynamic texture datasets, say DynTex~\cite{dyntex} and DynTex++~\cite{GhanemA07}, none is available both for the analysis and synthesis of SDTs. In order to test the synthesis algorithm, we compiled a dataset of SDTs~\cite{dyntexture_rpn_demo} containing $35$ different color dynamic textures borrowed mainly from the online source of Artbeats footage~\cite{artbeats}. It includes dynamic sequences of {\it boiling water, clouds, fire, fog, fountain, waterfalll, snow, ocean waves, ponds, and steam}. Each sequence is of spatial size $64 \times 64$ pixels and with $100$ frames. 
+%A screen shot of the dataset is shown in Figure~\ref{fig:dataset}.
+
+%\begin{figure}[ht!]
+%\centering
+% \includegraphics[width = .85 \linewidth]{dataset_screenshot2.png}
+%\caption{A screen shot of the SDT dataset. The {\it boiling water},  {\it fountain}, and {\it waterfall} are sequences by courtesy of the authors of Doretto et al. ~\cite{Doretto04spatiallyhomogeneous}, while the others are cropped from copyright footage courtesy of Artbeats Footage~\cite{artbeats}. Each sequence is of spatial size $64 \times 64$ pixels and with $100$ frames. }
+%\label{fig:dataset}
+%\end{figure}
+
+\paragraph{Comparing SN-textons with AR-textons}
+Figure~\ref{fig:textons-example1} presents the SN- and AR-textons learned from two exemplar textures {\it moving goldenlines} and {\it waterfall}, respectively. It shows the very fast decay in space and time of the learned SN-textons. Figure~\ref{fig:example1} compare the synthesized results of those using full-size textons and truncated textons. It demonstrates that thresholding the textons does not affect the synthesized results too much, due to their compactness. Moreover, we observe that the synthesized results of these two Gaussian models are visually comparable. More results and videos can be found at the link~\url{http://www.enst.fr/~xia/dynTextures.html}.
+
+\begin{figure*}[ht!]
+\centering
+\vspace{-3.mm}
+\subfloat[4 frames of the exemplar texture video $f$ ]{
+  \includegraphics[width=0.12 \linewidth]{goldenlines_exemplar1.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplar2.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplar3.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplar4.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar210.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar211.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar212.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar213.png}
+  }\\
+\vspace{-3.mm}
+\subfloat[learned SN-Textons of \emph{goldenlines}: 8 continuous frames from the Textons.]{
+  \includegraphics[width=0.12 \linewidth]{goldenlines_exemAR48.png}
+  \includegraphics[width=0.12 \linewidth]{goldenlines_exemAR49.png}
+  \includegraphics[width=0.12 \linewidth]{goldenlines_exemAR50.png}
+  \includegraphics[width=0.12 \linewidth]{goldenlines_exemAR51.png}
+  \includegraphics[width=0.12 \linewidth]{goldenlines_exemAR52.png}
+  \includegraphics[width=0.12 \linewidth]{goldenlines_exemAR53.png}
+  \includegraphics[width=0.12 \linewidth]{goldenlines_exemAR54.png}
+  \includegraphics[width=0.12 \linewidth]{goldenlines_exemAR55.png}
+} \\
+\subfloat[learned SN-Textons of \emph{waterfall}: 8 continuous frames from the Textons.]{
+  \includegraphics[width=0.12 \linewidth]{waterfall_De_exempAR48.png}
+  \includegraphics[width=0.12 \linewidth]{waterfall_De_exempAR49.png}
+  \includegraphics[width=0.12 \linewidth]{waterfall_De_exempAR50.png}
+  \includegraphics[width=0.12 \linewidth]{waterfall_De_exempAR51.png}
+  \includegraphics[width=0.12 \linewidth]{waterfall_De_exempAR52.png}
+  \includegraphics[width=0.12 \linewidth]{waterfall_De_exempAR53.png}
+  \includegraphics[width=0.12 \linewidth]{waterfall_De_exempAR54.png}
+  \includegraphics[width=0.12 \linewidth]{waterfall_De_exempAR55.png}
+} \\
+\subfloat[learned AR-Textons of \emph{goldenlines}: from left to right, $a_{1,1}, a_{2,2}, a_{3,3}, b_{1,1}, b_{2,2}, b_{3,3}$.]{
+  \includegraphics[width=0.15 \linewidth]{goldenlines_exemplar-AR-dyntexton_color-a211.png}
+  \includegraphics[width=0.15 \linewidth]{goldenlines_exemplar-AR-dyntexton_color-a222.png}
+  \includegraphics[width=0.15 \linewidth]{goldenlines_exemplar-AR-dyntexton_color-a233.png}
+  \includegraphics[width=0.15 \linewidth]{goldenlines_exemplar-AR-dyntexton_color-b211.png}
+  \includegraphics[width=0.15 \linewidth]{goldenlines_exemplar-AR-dyntexton_color-b222.png}
+  \includegraphics[width=0.15 \linewidth]{goldenlines_exemplar-AR-dyntexton_color-b233.png}
+}  \\
+\subfloat[learned AR-Textons of \emph{waterfall}: from left to right, $a_{1,1}, a_{2,2}, a_{3,3}, b_{1,1}, b_{2,2}, b_{3,3}$.]{
+  \includegraphics[width=0.15 \linewidth]{waterfall_De_exemplar2-AR-dyntexton_color-a211.png}
+  \includegraphics[width=0.15 \linewidth]{waterfall_De_exemplar2-AR-dyntexton_color-a222.png}
+  \includegraphics[width=0.15 \linewidth]{waterfall_De_exemplar2-AR-dyntexton_color-a233.png}
+  \includegraphics[width=0.15 \linewidth]{waterfall_De_exemplar2-AR-dyntexton_color-b211.png}
+  \includegraphics[width=0.15 \linewidth]{waterfall_De_exemplar2-AR-dyntexton_color-b222.png}
+  \includegraphics[width=0.15 \linewidth]{waterfall_De_exemplar2-AR-dyntexton_color-b233.png}
+} \\
+\caption{\small Learned textons from two stationary dynamic textures. % (a) displays 4 frames of the exemplar video $f$; (b) and (c) shows the learned SN-textons;
+Observe that the learned SN-texton are a 3D space-time filter and 8 continuous frames are displayed here. Given that the learned textons have compact support, truncating them produces similar results. }
+\label{fig:textons-example1}
+\end{figure*}
+
+\begin{figure*}[ht!]
+\centering
+\vspace{-3.mm}
+\subfloat[4 frames of a synthesized dynamic texture using the full-size SN-dynTextons learned from $f$]{
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarrpn1.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarrpn2.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarrpn3.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarrpn4.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2rpn1.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2rpn2.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2rpn3.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2rpn4.png}
+  } \\
+\vspace{-3.mm}
+\subfloat[4 frames of a synthesized dynamic texture using truncated SN-dynTextons with size half of $f$]{
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarrpn21.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarrpn22.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarrpn23.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarrpn24.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2rpn24.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2rpn25.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2rpn26.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2rpn27.png}
+  } \\
+\vspace{-3.mm}
+\subfloat[4 frames of the synthesized dynamic texture using full-size AR-dynTextons learned from $f$]{
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarAR20.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarAR21.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarAR22.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarAR23.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2AR50.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2AR51.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2AR52.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2AR53.png}
+} \\
+\vspace{-3.mm}
+\subfloat[4 frames of the synthesized dynamic texture using truncated  AR-dynTextons with size half of $f$]{
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarAR250.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarAR251.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarAR252.png}
+  \includegraphics[width=0.12\linewidth]{goldenlines_exemplarAR253.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2AR254.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2AR255.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2AR256.png}
+  \includegraphics[width=0.12\linewidth]{waterfall_De_exemplar2AR257.png}
+}\\
+\caption{\small Results on stationary dynamic texture synthesis using textons in Figure~\ref{fig:textons-example1}. Note that the learned dynamic textons have compact support, thus truncating them produces similar results. More synthesis results can be found at~\url{http://www.enst.fr/~xia/dynTextures.html}. }
+\label{fig:example1}
+\end{figure*}
+
+\paragraph{Comparing AR-textons with LDS~\cite{Doretto04spatiallyhomogeneous}}
+Let us directly compare our method with the one proposed in~\cite{Doretto04spatiallyhomogeneous}, which uses multiscale autoregressive models.
+Figure~\ref{fig:experiment2} shows the synthesized results for three dynamic sequences: {\it waterfall}, {\it fountain}, and {\it fire} by courtesy of Doretto et al.~\cite{Doretto04spatiallyhomogeneous}.
+Both these two models capture the temporal and spatial stationarity of the training dynamic textures. In fact, they produce very similar results on these three sequences. Both of them have a strong limitation when the dynamic textures violate the second-order stationarity, which could be inspected from the results of the fire sequence, shown in Figure~\ref{fig:experiment2} (h) and (i).
+
+It is worth noticing that the method in~\cite{Doretto04spatiallyhomogeneous} uses parametric models to infer the locally averaged  spatial structure of the training sequence, while our method uses nonparametric model.
+In particular, compared with the LDS model~\cite{Doretto04spatiallyhomogeneous}, in which case the $a$ matrix is of size $N \times N$, the proposed AR dynamic texton are much more compact. More results and videos can be found at the link~\url{http://www.enst.fr/~xia/dynTextures.html}.
+
+
+\begin{figure*}[ht!]
+\centering
+\subfloat[]
+{    \includegraphics[height= 0.143\linewidth]{waterfall_De_exemplar.png} }
+\subfloat[3 synthesized frames of (a)]
+{   \includegraphics[width=0.143\linewidth]{waterfall_De_exemplar210.png}
+    \includegraphics[width=0.143\linewidth]{waterfall_De_exemplar211.png}
+    \includegraphics[width=0.143\linewidth]{waterfall_De_exemplar212.png}
+}
+\subfloat[3 synthesized frames of (a) by~\cite{Doretto04spatiallyhomogeneous}]
+{   \includegraphics[height= 0.143\linewidth]{waterfall_De5.png}
+    \includegraphics[height= 0.143\linewidth]{waterfall_De10.png}
+    \includegraphics[height= 0.143\linewidth]{waterfall_De15.png}
+}
+\\
+\vspace{-3.5mm}
+\subfloat[]
+{    \includegraphics[height= 0.143\linewidth]{fountain_exemplar.png} }
+\subfloat[3 synthesized frames (d)]
+{   \includegraphics[height= 0.143\linewidth]{fountain_exemplarsyn5.png}
+    \includegraphics[height= 0.143\linewidth]{fountain_exemplarsyn10.png}
+    \includegraphics[height= 0.143\linewidth]{fountain_exemplarsyn15.png}
+}
+\subfloat[3 synthesized frames of (d) by~\cite{Doretto04spatiallyhomogeneous}]
+{   \includegraphics[height= 0.143\linewidth]{fountain_De5.png}
+    \includegraphics[height= 0.143\linewidth]{fountain_De10.png}
+    \includegraphics[height= 0.143\linewidth]{fountain_De15.png}
+}
+\\
+\vspace{-3.5mm}
+\subfloat[]
+{    \includegraphics[height= 0.143\linewidth]{fire_exemplar.png} }
+\subfloat[3 synthesized frames (g)]
+{   \includegraphics[height= 0.143\linewidth]{fire_exemplarAR51.png}
+    \includegraphics[height= 0.143\linewidth]{fire_exemplarAR54.png}
+    \includegraphics[height= 0.143\linewidth]{fire_exemplarAR57.png}
+}
+\subfloat[3 synthesized frames (g) by~\cite{Doretto04spatiallyhomogeneous}]
+{   \includegraphics[height= 0.143\linewidth]{fire_exemplar1.png}
+    \includegraphics[height= 0.143\linewidth]{fire_exemplar4.png}
+    \includegraphics[height= 0.143\linewidth]{fire_exemplar7.png}
+}
+\caption{Comparisons between our method and the method proposed in~\cite{Doretto04spatiallyhomogeneous}. (a), (d), and (g) present three frames of the spatially homogeneous dynamic textures {\it waterfall}, {\it fountain}, and {\it fire1}, respectively. Three synthesized frames are displayed for each dynamic texture by our method and the method of~\cite{Doretto04spatiallyhomogeneous}, in (b)(e)(h) and (c)(f)(i), respectively. Both the exemplar textures and the synthesized results of~\cite{Doretto04spatiallyhomogeneous} are provided by the authors of~\cite{Doretto04spatiallyhomogeneous}. For the complete synthesized sequences, refer to the online demo at~\cite{dyntexture_rpn_demo}. }
+\label{fig:experiment2}
+\end{figure*}

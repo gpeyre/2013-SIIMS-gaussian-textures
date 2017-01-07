@@ -1,0 +1,437 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Geodesic Mixing Two Gaussian Models}
+\label{sec-geodesic}
+
+In this section, we discuss the problem of mixing two textures, which corresponds to computing the geodesics between two Gaussian models according to some distance between distributions. We give the explicit solution of this problem in the case of the $L^2$ OT distance for SN models. Moreover, we give an approximate solution for AR models by approximating the full distribution of the space-time video by the distribution of two consecutive frames.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Optimal transport distance}
+
+We consider two distributions $\mu_0,\mu_1$ defined on $\RR^P$, for instance $P=Nd$ when dealing with dynamic textures. The square of the $L^2$ OT distance between two distributions is defined as
+\eq{
+	\dist{OT}(\distr_0,\distr_1)^2 = \umin{ Z \in C( \distr_0,\distr_1 ) } 
+	\int_{\RR^P \times \RR^P} \norm{y_0-y_1}^2 d\PP_{Z}(y_0,y_1),
+}
+where $Z \in C( \distr_0,\distr_1 )$ is a joint distribution having marginal distributions $\mu_0,\mu_1$, i.e.
+\eq{
+	\int_{\U \times \RR^P} d\PP_{Z}(y_0,y_1) = \mu_0(U),
+	\qandq
+	\int_{\RR^P \times V} d\PP_{Z}(y_0,y_1) = \mu_1(V)
+}
+for all measurable sets $U,V \subset \RR^P$. Intuitively, $\dist{OT}(\distr_0,\distr_1)$ measures the amount of work (supposed to be proportional to the squared $L^2$ distance) needed to displace the mass of the distribution $\mu_0$ to the mass of $\mu_1$. More details about OT can be found for instance in~\cite{villani-topics}.
+
+The OT distance between Gaussian distributions $\distr_i = \Nn(\Mean_i,\Cov_i), \, i=0, 1$ can be computed explicitly as
+\begin{equation}
+\label{eq-OT-dist}
+	\dist{OT}(\distr_0,\distr_1)^2 = \tr(\Cov_0 + \Cov_1 - 2 \Cov_{0,1}) + \norm{\Mean_0-\Mean_1}^2,
+\end{equation}
+where
+\begin{equation}
+\label{eq-c01}
+    \Cov_{0,1} =  ( \Cov_1^{1/2} \Cov_0 \Cov_1^{1/2} )^{1/2}
+\end{equation}
+where $A^{1/2}$ is the unique semi-definite positive square root of a symmetric semi-definite positive matrix $A$. See for instance~\cite{gowson-transport-gaussian} for a proof of this result. 
+% It is also known as the Frechet distance \cite{gowson-transport-gaussian}.
+
+When $(\Cov_i)_{i=0,1}$ diagonalize in the same orthogonal basis, with eigenvalues $(\la_i^k)_{k=1}^P$, then the OT distance between $(\distr_i = \Nn(\Mean_i,\Cov_i))_{i=0,1}$ is
+\eq{
+	\dist{OT}(\distr_0,\distr_1)^2 = \norm{\Mean_0-\Mean_1}^2 + \sum_{k=1}^P \pa{ \sqrt{\la_0^k}-\sqrt{\la_1^k} }^2.
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Geodesic Interpolation}
+
+%%%
+\paragraph{Barycentric interpolation between two distributions}
+
+We consider a distance $d$ between distributions (for instance $d=\dist{OT}$). A barycentric path linking $\distr_0$ to $\distr_1$ is defined as
+\eql{\label{eq-dfn-path}
+	\foralls \rho \in [0,1],
+	\quad
+	\distr_\rho =  \uargmin{\distr} (1-\rho) \, d(\distr_0,\distr)^2 + \rho \, d(\distr_1,\distr)^2,
+}
+where $\rho \in [0,1] \mapsto \distr_\rho$ parameterizes the path (we assume existence and uniqueness of such minimizer). 
+
+%%%
+\paragraph{Connection with Geodesics}
+
+The OT distance is a geodesic distance. This means that $\dist{OT}(\distr_0,\distr_1)$ is equal to the length of the shortest path (the so-called geodesic path) between $\distr_0$ and $\distr_1$, i.e.
+\eq{
+	\dist{OT}(\distr_0,\distr_1) = \uargmin{\distr_\rho} \Ll_{d_\text{OT}}(\distr_\rho)
+}
+where the length of a path for a metric $d$ is
+\eq{
+	\Ll_d(\distr) = \uinf{ K \in \NN^*, 0=t_0 < t_1 < \ldots < t_K = 1 } \sum_{k=1}^K d( \distr_{t_{k-1}},\distr_{t_k} ).
+}
+In this case, $\dist{OT}(\distr_0,\distr_1) = \Ll_{d_\text{OT}}(\distr_\rho)$ where $\distr_\rho$ solves~\eqref{eq-dfn-path} and is a geodesic path. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{OT Geodesics of Gaussian Distributions}
+
+The following proposition shows that the set of Gaussian distributions is geodesically convex for the OT-distance, see~\cite{takatsu-wasserstein-gaussian}.
+
+\begin{proposition}\label{prop-geod-gaussian} 
+If $\ker(\Cov_0) \not\subset \ker(\Cov_1)^\bot$ and $\rank(\Cov_0) \geq \rank(\Cov_1)$, we define a Gaussian distribution $\distr_\rho = \Nn(\Mean_\rho,\Cov_\rho)$ with
+\eql{\label{eq-geodesic-ot}
+	\foralls \rho \in [0,1], \quad
+	\choice{
+		    \Mean_\rho = (1-\rho) \, \Mean_0 + \rho \, \Mean_1, \\
+			\Cov_\rho = [ (1-\rho) \Id + \rho \Pi ]\Cov_0[ (1-\rho)\Id + \rho \Pi ],
+	}
+} 
+\eql{\label{eq-dfn-pi}
+	\qwhereq 	\Pi =  \Cov_1^{1/2} \Cov_{0,1}^+ \Cov_1^{1/2}
+}
+with $\Cov_{0,1}$ defined by Equation~\eqref{eq-c01}, $A^+$ is the Moore-Penrose pseudo-inverse of a matrix $A$. It is the unique Gaussian OT-geodesic between $\distr_i=\Nn(\Mean_i,\Cov_i)$ for $i=0,1$.
+\end{proposition}
+
+\begin{proof}
+	\todo{Cite also McCan and its displacement interpolation.}
+	The linear interpolation of the mean is a well known result, see~\cite{villani-topics}. We thus assume that $\Mean_0=\Mean_1=0$.
+	The proof follows the one in~\cite{takatsu-wasserstein-gaussian} taking extra care of the rank-deficient matrix case. Classical results (see e.g.~\cite{villani-topics}) ensures that a map $T : \RR^{P} \rightarrow \RR^P$ is an $L^2$ OT between $\distr_0$ and $\distr_1$ if and only if $T$ is the gradient of a convex function and $T \sharp \mu_0 = \mu_1$ (where $\sharp$ is the push-forward operator). In our case, if the transport is linear, this means that $T$ is symmetric and $T \Cov_0 T = \Cov_1$. We first prove that $\Pi$ defined in \eqref{eq-dfn-pi} satisfies this equality. Indeed, condition $\ker(\Cov_0) \not\subset \ker(\Cov_1)^\bot$ and $\rank(\Cov_0) \geq \rank(\Cov_1)$ ensures that \todo{to verify }
+	% $\Cov_{0,1} \neq 0$ and thus
+	\eq{
+		\Pi \Cov_0 \Pi = \Cov_1^{1/2} (\Cov_{0,1}^{1/2})^+ \Cov_{0,1}^{1/2}  (\Cov_{0,1}^{1/2})^+ \Cov_1^{1/2}
+		= 
+		\Cov_1^{1/2} \text{Proj}_{\Img(\Cov_1)} \Cov_1^{1/2}
+		= 
+		\Cov_1
+	}	
+	where $\text{Proj}_{\Img(\Cov_1)}$ is the orthogonal projector on $\Img(\Cov_1)$.
+	A Gaussian barycenter necessarily corresponds to a transport $\tilde \Pi$ which is linear
+	from $\Img(\Cov_0)$ to $\Img(\Cov_1)$. 
+	It satisfies $\tilde \Pi \Cov_0 \tilde \Pi = \Cov_1 = \Pi \Cov_0 \Pi$, and hence, 
+	by uniqueness of the matrix square root, $\Cov_0^{1/2} \tilde\Pi \Cov_0^{1/2} = \Cov_0^{1/2} \Pi \Cov_0^{1/2}$. Then, $\tilde \Pi$ and $\Pi$ are equal on $\Img(\Cov_0)$ and thus changing $\Pi$ by $\tilde \Pi$ in \eqref{eq-geodesic-ot} defines the same geodesic $\Cov_\rho$.
+\end{proof}
+
+When $\Cov_0$ or $\Cov_1$ are full rank, the geodesic $\distr_\rho$ is known to be unique, and it is thus the one defined in \eqref{eq-geodesic-ot}. Note also that if the hypothesis $\rank(\Cov_0) \geq \rank(\Cov_1)$ is not satisfied, one can exchange $\Cov_0$ and $\Cov_1$ and compute the geodesic $\Cov_\rho$ after exchanging $\rho$ by $1-\rho$.
+
+When $\Cov_0$ and $\Cov_1$ diagonalize in the same ortho-basis of $\RR^P$, $\Cov_\rho$ diagonalizes in the same basis and its eigenvalues $(\la_\rho^k)_{k=1}^P$ are
+\eq{
+	\foralls k = 1, \ldots, P,
+    \quad
+    \sqrt{\la_\rho^k} = (1-\rho)\sqrt{\la_0^k} + \rho \sqrt{\la_1^k} .
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Comparison with Other Metrics}
+\label{subsec-comparison-others}
+
+
+While we focus our attention to the OT interpolation of Gaussian models, many other distances could be used as well. Let us however stress several key features that makes the use of OT appealing: 
+\begin{itemize}
+	\item The set of Gaussian distributions are geodesically convex. 
+	\item The geodesic path $\distr_\rho$ can be computed in closed form, see~\eqref{eq-geodesic-ot}.
+	\item The distance is defined and finite even for rank-deficient covariances (such as the SN covariance for color texture, see~~\eqref{eq-sn-rank1})
+	\item The geodesic between rank-$r$ covariance is rank-$r$, which is exploited in Section~~\ref{subsec-geodesic-sn} when computing the geodesic of SN models in the case $r=1$ (rank-1 covariances). 
+\end{itemize}
+
+To gain a better insight about this interpolation, let us focus in the special case of 1-D Gaussian ($P=1$), and compare OT with other interpolations. In this case, $\distr_i = \Nn(\Mean_i,\Cov_i)$ for $i=0,1$ where $\Mean_i \in \RR$ and $\Cov_i = \std_i^2$ where $\std_i \in \RR^+$ is the standard deviation.
+
+
+\paragraph{Optimal Transport interpolation}
+The OT interpolation $\Nn(\Mean_\rho,\Cov_\rho=\std_\rho^2)$ defines a linear segment in the half plane $(\Mean,\std) \in \RR \times \RR^+$
+\eq{
+	\foralls \rho \in [0,1], \quad (\Mean_\rho,\std_\rho) = (1-\rho) (\Mean_0,\std_0) + \rho (\Mean_1,\std_1).
+}
+Figure~\ref{fig-1d-geodesic-gaussian}, left, shows the resulting interpolation, which clearly shows the translation of the mean of the Gaussian.
+
+
+\paragraph{Linear interpolation} A naive interpolation consists in performing a linear averaging of the densities. This results in a Gaussian mixture (with two mixtures) that is no longer Gaussian. This is illustrated on Figure~\ref{fig-1d-geodesic-gaussian}, middle.
+
+% referring to Figure~~\ref{fig-1d-geodesic-gaussian} for graphical illustrations.
+% For 2-dimensional Gaussian distributions, as demonstrated in Figure~~\ref{fig-1d-geodesic-gaussian}, the OT operator is a rotation.
+
+
+\paragraph{Fisher-Rao interpolation} As detailed in~\cite{atkinson-rao}, the Fisher-Rao (FR) geodesic of 1-D Gaussian satisfies 
+\eql{\label{eq-geodesic-FR}
+	\foralls \rho \in [0,1], \quad (\Mean_\rho^{\text{FR}},\std_\rho^{\text{FR}}) = 
+	(\Mean^{\text{FR}} - \la \cos(\phi_\rho), \la \sin(\phi_\rho))
+}
+where
+\begin{align*}
+	\foralls \rho \in (0,1), \quad \phi_\rho &= (1-\rho) \phi_0 + \rho \phi_1 \\
+	\la^2 &= \sigma_0^2 + \frac{((\Mean_0- \Mean_1)^2 - (\sigma_0^2 - \sigma_1^2))^2}{4(\Mean_0- \Mean_1)^2}  \\
+	\Mean^{\text{FR}} &= \frac{\Mean_0 + \Mean_1}{2} + \frac{\sigma_0^2 - \sigma_1^2}{2(\Mean_0- \Mean_1)}  \\
+	\foralls i=0, 1, \quad \phi_i & = \sin^{-1}(\sigma_i / \la)
+\end{align*}
+is taken to be in the interval $(0, \frac{\pi}{2}]$ if $\Mean_i \geq \Mean^{\text{FR}}$ and in $[\frac{\pi}{2}, \pi]$, otherwise.
+Geometrically, $(\Mean_\rho^{\text{FR}},\std_\rho^{\text{FR}})$ draws an arc jointing $\distr_0$ and $\distr_1$ with radius $\la$ and centered on $(\Mean^{\text{FR}}, 0)$. It corresponds to a geodesic in a space with negative curvature (see~\cite{amari-book}), as opposed to the OT geometry which has positive curvature (and which is actually Euclidean in the 1-D $(\Mean,\std)$ parameters). 
+
+Moreover, it is worth noticing that no explicit formula is known for the FR geodesic in dimension greater that 1 when the distribution does not have the same mean. Figure~~\ref{fig-1d-geodesic-gaussian}, right, shows the FR interpolation of the densities. 
+
+
+\begin{figure}[ht!]
+  % Requires \usepackage{graphicx}
+  \centering
+  \begin{tabular}{@{}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{}}
+  \includegraphics[width=0.32\linewidth]{1d-gaussian-interp-OT-.png} &
+  \includegraphics[width=0.32\linewidth]{1d-gaussian-interp-Euclidean-.png} &
+  \includegraphics[width=0.32\linewidth]{1d-gaussian-interp-Rao-.png}  \\
+%  \includegraphics[width=0.46 \linewidth]{1d-gaussian-geodesic-Rao-OT-.png}
+  	OT interpolation ~~\eqref{eq-geodesic-ot} &  Linear interpolation &  Rao interpolation ~~\eqref{eq-geodesic-FR}
+	\end{tabular}
+  \caption{Comparisons of geodesic interpolation for $(\Mean_0,\std_0) = (0,0.5)$ and $(\Mean_1,\std_1)=(9, 1.5)$.
+  \todo{Redo the figure in PDF using less curves, bolder curve}
+\label{fig-1d-geodesic-gaussian}
+}
+\end{figure}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{SN Model Geodesics}
+\label{subsec-geodesic-sn}
+
+We denote $\Nn(\Mean,\Cov) = \sn{f_0}$ a SN texture learned from an input exemplar $f_0 \in \RR^{\U \times d}$. Its mean and covariances are thus defined by~\eqref{eq-sn-mean} and~\eqref{eq-sn-rank1}.
+
+
+%%
+\paragraph{SN models are geodesically convex}
+
+
+The following theorem shows that if the input models $\distr_0, \distr_1$ are Spot Noises, then the geodesic interpolation is also Spot Noise. This means that the SN texture model is geodesically convex.
+
+\begin{theorem}\label{thm-geodesic-spot-noise}
+	For $i=0,1$, let $\distr_i \sim \sn{f_i}$ be Spot Noise distributions. We suppose that 
+	$\forall \om, \hat f_1(\om)^* \hat f_0(\om) \neq 0$.
+	The OT geodesic path $\distr_\rho$ defined in~\eqref{eq-geodesic-ot} is a Spot Noise model $\distr_\rho = \sn{f_\rho}$
+	where $f_\rho$ is defined as
+	\eql{\label{eq-sn-geodesic}
+	   \foralls \rho \in [0,1],
+	   \quad
+	   f_\rho = (1-\rho)\, f_0 + \rho\,  g_1,
+	}
+	where $g_1$ is computed from $f_1$ as
+	\begin{equation}
+    \label{eq-SN-textons-g}
+		\foralls \om, \quad
+		\hat g_1(\om) = \hat f_1(\om) \frac{ \hat f_1(\om)^* \hat f_0(\om) }{ |\hat f_1(\om)^* \hat f_0(\om)| }.
+	\end{equation}
+%Sira: moved these definitions to the paragraph{Canonical texton -- SN case} and Notation, respectively
+%	where $v^* \in \CC^d$ is the transposed complex conjugate vector of $v \in \CC^d$,
+%	and where $|v|$ is the modulus of $v$.
+\end{theorem}
+
+\begin{proof}
+	The covariance operator $\Cov_i$ of $\distr_i$ is a matrix-convolution operator, and its associated kernel $\cov_i$ has the following Fourier transform 
+	\begin{equation}
+        \label{eq-proof-1}
+		\hat \cov_i(\om) = \hat f_i(\om) \hat f_i(\om)^*  \in \CC^{d \times d}.
+	\end{equation}	
+	The symmetric operator $\Pi$ defined in Equation~\eqref{eq-dfn-pi} is thus also a matrix convolution $\Pi g = \pi \star g$ with kernel whose Fourier transform is 
+	\eq{
+		\hat \pi(\om) = \hat \cov_1^{1/2}(\om) (\hat \cov_1^{1/2}(\om) 
+		\hat \cov_0(\om) \hat \cov_1^{1/2}(\om))^{-1/2} \hat \cov_1^{1/2}(\om).
+	}
+	Note that the square root of a rank-1 matrix can be easily computed as
+	\eq{
+		\foralls u \in \CC^d, \quad
+		( u u^* )^{1/2} = \frac{1}{|u|} uu^* \in \CC^{d \times d}.
+	}
+	Using this property, together with Equation~\eqref{eq-proof-1},
+	denoting $u_i = \hat f_i(\om)$ one proves that
+	\begin{equation}
+        \label{eq-proof-2}
+		\hat \pi(\om)
+        = \frac{1}{|u_1^*u_0|} u_1 u_1^* ( u_1 u_1^* )^{-1} u_1 u_1^*
+		= \frac{u_1 u_1^*}{|u_1^*u_0|}.
+	\end{equation}
+	Observe that although the matrix  $u_1^* u_0$ %Sira:Change!   $u_1^* u_1$
+	is non invertible, the above expression is correct because
+	the mapping $\pi(\om) $ is zero on the orthogonal of $u_1$.
+
+	The expression in Equation~\eqref{eq-geodesic-ot} of the covariance $\Cov_\rho$ implies that it is also a matrix-convolution operator with kernel $\cov_\rho$ defined over the Fourier domain as
+	\eq{
+		\hat \cov_\rho(\om) = \hat f_\rho(\om) \hat f_\rho(\om)^* \in \CC^{d \times d},
+	}	
+    where
+    \eq{
+		\hat f_\rho(\om) =
+		[ (1-\rho)\Id + \rho \hat \pi(\om) ] u_0	\in \CC^d.
+	}
+	Using the expression~\eqref{eq-proof-2} for $\hat \pi(\om)$, one thus has that $\distr_\rho = \sn{f_\rho}$ is a Spot Noise model where $f_\rho$ is defined as
+	\eq{
+		\hat f_\rho(\om) =
+		(1-\rho) \hat f_0(\om) + \rho
+        \underbrace{ \frac{\hat f_1(\om)^* \hat f_0(\om)}{|\hat f_1(\om)^* \hat f_0(\om)|} \hat f_1(\om)
+                   }_{\hat g_1(\om)}
+		\, \in \CC^d.
+	}
+\end{proof}
+
+
+%%
+\paragraph{Grayscale SN model geodesic}
+
+
+For grayscale texture, specializing~\eqref{eq-SN-textons-g} to the case $d=1$ leads to 
+\eq{
+	\distr_\rho = \sn{\tilde f_\rho}
+	\qwhereq
+	\tilde f_\rho = (1-\rho) \tilde f_0 + \rho \tilde f_1,
+}
+where $\tilde f_i$ is the grayscale texton associated to $f_i$, as defined in~\cite{} 
+\eq{
+	\foralls \om, \quad \widehat{\tilde f_i}(\om)=|\hat f_i(\om)|.
+}
+%SIRA: already defined: where $\abs{\cdot}$ is the modulus of complex numbers. 
+
+
+%%
+\paragraph{SN geodesics and synthesis} Theorem~\ref{thm-geodesic-spot-noise} details how to compute $f_\rho$ from which the geodesic model can be described as a Spot Noise, $\mu_\rho = \sn{f_\rho}$. One can thus perform a synthesis from the geodesic model by essentially replacing $f_0$ by $f_\rho$ in the framework described in Section~\ref{sec-sn}. This is detailed in Algorithm~\ref{alg-sn-geodesic}.
+
+
+\begin{algorithm}[ht!]
+\caption{SN Geodesic Path Synthesis}
+\label{alg-sn-geodesic}
+\begin{algorithmic}[1]
+\Require exemplars $(\tilde f_0, \tilde f_1) \in \RR^{\U \times d}$, weight $\rho \in [0,1]$.
+\Ensure sample $f \in \RR^{\tilde U \times d}$ of the geodesic SN model.
+\Statex
+\begin{enumerate}
+	\algostep{Pre-processing} Compute $(f_0,f_1)$ from $(\tilde f_0, \tilde f_1)$ 
+			using~\eqref{eq-preprocess}.
+	\algostep{SN mixing} Compute $f_\rho$ from $(f_0,f_1)$ using~\eqref{eq-sn-geodesic}.
+	\algostep{Texture synthesis} Apply step 3, 4 and 5 of Algorithm~\ref{alg-gaussian-texture-modeling}
+		with $f_\rho$ instead of $f_0$. 
+\end{enumerate}
+\end{algorithmic}
+\end{algorithm}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{AR Model Geodesics}
+\label{subsec-ar-geodesic}
+
+Recall that according to~\eqref{eq-AR-stationary}, a stationary AR(1) process follows, for each frequency $\om \in \Ux$, the AR(1) recursion in $\CC^d$
+\eq{
+		\foralls t \in \ZZ, \quad x_{t+1} = 
+	a x_t + \bar w_t \in \CC^{d}.
+}
+where $a=\hat A(\om) \in \CC^{d \times d}$, $x_t = \hat X_t(\om)$, $\bar w_t \DistributedAs \Nn(0,\hat B(\om))$. Since the model is separable across frequencies, we will thus focus on computing the geodesic of a low $d$-dimensional AR(1) model parameterized by $(a,b)$.
+
+While the set of SN models is geodesically convex for the OT distance, it is not the case for the set of AR(1) distributions. A brute force way to impose the geodesic to be an AR(1) model is to restrict the optimization~\eqref{eq-dfn-path} to be an AR(1) process. This leads to an intractable highly non-convex problem. We propose here to use a simple approximation that seems to work  well in our tests.
+
+%%
+\paragraph{Low-dimensional covariance embedding}
+
+The basic idea is that the set of AR(1) model $(x_t)_t$ on $\CC^d \times \ZZ$ is in bijection with a subset of Gaussian processes on $\CC^{2d}$, and an explicit bijection is given by the selection of two consecutive frames  $(x_t)_{t \in \ZZ} \mapsto (x_0,x_1)$,
+where we have arbitrarily chosen the frames indexed by $t=0$ and $t=1$. Note that this is formally a map between random vectors. The following proposition shows how to compute the covariance of these pair of frames and how to invert the corresponding embedding. 
+
+\begin{proposition}
+	The covariance $\Ga(a,b)$ of $(x_0,x_1)$ defines the map
+	\eq{
+		\Ga : (a,b) \in \De_d \times \Ss_d^+ 
+			\mapsto
+			\begin{bmatrix}
+    	    		   	\beta(a,b) & a\beta(a,b) \\
+    		         \beta(a,b) a^* & \beta(a,b)
+	      	\end{bmatrix} \in \Uu_d \subset \CC^{2d \times 2d}
+	}
+	where $\De_d$ is defined in \eqref{eq-dfn-delta} and $\Ss_d^+$ is the set of symmetric 
+	positive definite matrices, and 
+	\eq{
+		\Uu_d = \enscond{
+			\begin{bmatrix}
+    		       	\beta & c \\
+    	    		     c^* & \beta
+	      	\end{bmatrix}	\in \CC^{2d \times 2d}	
+		}{ \beta \in \Ss_d^+, c \in \CC^{d \times d} }.
+	}
+	We define 
+	\eq{
+	\Ga^{-1} : 
+		\begin{bmatrix}
+           	\beta & c \\
+             c^* & \beta
+      	\end{bmatrix} \in \Uu_d
+	\mapsto
+	(a = c \be^{-1}, b = \be - a\be a^* = \be - c \be^{-1} c^*).
+	}
+	This map satisfies $\Ga^{-1} \circ \Ga = \Id$.
+\end{proposition}
+\begin{proof}
+	The expression of the covariance $\Ga(a,b)$ is a direct consequence of Proposition \ref{prop-ar-processes}. For $b \in \Ss_d^+$, $\be = a \be a^* + b$ is the sum of a  semi-definite positive matrix and a positive definite matrix, and it is hence positive definite. One thus has $\Ga(a,b) \in \Uu_d$.
+	The inversion formula for $\Ga^{-1}$ follows from this, using the fact that $\be$ is invertible. 
+\end{proof}
+
+Note that we restrict our attention to noise covariances $b \in \Ss_d^+$ that are full rank. It is certainly possible to weaken this assumption and still be able to define an inverse map $\Ga^{-1}$.
+
+%%
+\paragraph{Approximate AR geodesic through embedding}
+
+
+For any covariances $(\Cov_i)_{i=0,1}$, let us denote
+\eq{
+	\Cov_\rho = \Bary_\rho( \Cov_0,\Cov_1 )
+}
+where $\Cov_\rho$ is the covariance of the geodesic of $(\distr_i=\Nn(0,\Cov_i))_{i=0,1}$ with weight $\rho$, that minimizes~\eqref{eq-dfn-path} and that can be computed in closed form as exposed in~\eqref{eq-geodesic-ot}. 
+
+We compute an approximate geodesic of AR models parameterized by $(a_i,b_i)_{i=0,1}$ by computing the barycenter over the embedding domain after the application of $\Ga$, and then lifting back to the set of AR models using $\Ga^{-1}$. Formally, this reads
+\eql{\label{eq-ar-mixing}
+	\foralls \rho \in (0, 1), \quad 
+	(a_\rho,b_\rho) = \Ga^{-1}\pa{
+		\Bary_{\rho}( \Ga(a_0,b_0), \Ga(a_1,b_1) )
+	}.
+}
+The property $\Ga^{-1} \circ \Ga = \Id$ guarantees that $\rho \in (0,1) \mapsto (a_\rho,b_\rho)$ interpolates between $(a_i,b_i)$ for $i=0,1$.
+
+Denoting
+\eq{
+	\foralls i \in \{0, 1\}, \quad
+		\Ga(a_i,b_i) = 
+		\begin{bmatrix}
+           	\beta_i & c_i \\
+             c_i^* & \beta_i
+      	\end{bmatrix} \in \Uu_d, 
+}
+one easily sees that 
+\eq{
+	\foralls \rho \in [0,1], \quad
+	\Bary_{\rho}( \Ga(a_0,b_0), \Ga(a_1,b_1) ) = 
+		\begin{bmatrix}
+           	\beta_\rho & c_\rho \\
+             c_\rho^* & \beta_\rho
+      	\end{bmatrix}
+}
+
+
+\todo{Problem: prove that  $\beta_\rho \in \Ss_d^+$, i.e. is invertible. }
+
+\todo{ Include this in the introduction section on previous works. 
+This provides another an effective way to compute the geodesic of AR models, comparing with~\cite{ravishanker-arfima,ravishanker-arma,garderen-ar}. SIRA: Moved to introduction!
+}
+
+
+%%
+\paragraph{AR barycenters and synthesis} 
+
+Algorithm~\ref{alg-ar-geodesic} describes the steps of the texture mixing and synthesis with the AR model. It operates by applying Equation~\eqref{eq-ar-mixing} to each spacial frequency, and then using the synthesis framework described in Section~\ref{sec-ar}.
+
+
+\begin{algorithm}[ht!]
+\caption{AR Geodesic Path Synthesis}
+\label{alg-ar-geodesic}
+\begin{algorithmic}[1]
+\Require exemplars $(\tilde f_0, \tilde f_1) \in \RR^{\U \times d}$, weight $\rho \in [0,1]$.
+\Ensure sample $f \in \RR^{\tilde U \times d}$ of the geodesic AR model.
+\Statex
+\begin{enumerate}
+	\algostep{Pre-processing} Compute $(f_0,f_1)$ from $(\tilde f_0, \tilde f_1)$ 
+			using~\eqref{eq-preprocess}.
+	\algostep{AR textons learning} For $i=0,1$, learn $(\Aa_i,\Bb_i)$ using~\eqref{eq-ar-texton-A} and~\eqref{eq-ar-texton-B}.
+	\algostep{AR mixing} Learn the mixed parameter $(\Aa_\rho,\Bb_\rho)$ by applying~\eqref{eq-ar-mixing} to each $\om \in \Ux$, with $(a_\rho,b_\rho) = (\hat A_\rho(\om), \hat B_\rho(\om))$.
+	\algostep{Texture synthesis} Apply step 4 and 5 of Algorithm~\ref{alg-ar-modeling}
+		with $(\Aa_\rho,\Bb_\rho)$ instead of $(\Aa,\Bb)$. 
+\end{enumerate}
+\end{algorithmic}
+\end{algorithm}

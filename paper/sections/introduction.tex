@@ -1,0 +1,60 @@
+\section{Introduction}
+
+This paper studies the analysis, synthesis and mixing of both static and dynamic textures. Textures play an important role in visual perception and image or video understanding. Static textures typically capture the surface properties of objects, while dynamic textures model many natural physical phenomena (such as rain, snow, smoke, etc.).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Stationary Texture Modeling}
+
+The modeling of textures is a longstanding and central problem in image processing, computer vision and computer graphics. While it is difficult to give a strict mathematical definition of textures, most methods proposed in the literature tackle their analysis and synthesis using random distributions. The process of modeling texture for texture synthesis by example amounts first, to learn the underlying random process from a given exemplar image, and then, to develop algorithms to draw new samples from the learned distribution.
+
+This paper concentrates on the modeling and mixing of both stationary static textures (SSTs) and stationary dynamic textures (SDTs).
+Stationary textures have been widely investigated especially after Julesz's conjecture~\cite{julesz62}, which states that humans cannot distinguish between textures with identical second-order statistics. Even though he proved this conjecture false in the general case~\cite{Julesz71}, it still holds for a large class of textures.  Although a complex natural image is not usually homogeneous due to the presence of objects and occlusions, it can often be considered as being locally homogeneous from a statistical point of view. Furthermore, it is also reasonable to assume that the dynamical statistics of images created by natural phenomena (such as smoke, snow, waterfall, etc.) are stationary in time.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Previous Works}
+\label{sec:prev_work}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\paragraph{Texture synthesis}
+
+Patch-based methods are adapted to complicated geometric textures, see e.g.~\cite{efros-nonparam-sampling,StarWei09}. Statistical parametric models are generally not as good in handling complex texture patterns, but they are more principled and their parameters are better understood, see for instance~\cite{portilla-parametric-model}. This paper concentrates on a simple statistical texture model, namely stationary Gaussian distributions, following and extending the spot noise (SN) model initiated in~\cite{galerne-ieee}. For dynamic texture, we also consider Gaussian auto-regressive (AR) models as initially proposed in~\cite{doretto-ijcv}, which restricts the class of covariances but is well suited to model natural phenomena.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\paragraph{Modeling stationary dynamic textures}
+
+Early attempts to model SDTs include the spatio-temporal autoregressive (STAR) model~\cite{Szummer96a}, which creates local space-time models for individual pixels relying on their 3-D causal neighborhood. Bar-Joseph {\it et al.}~\cite{bar-joseph-texture-mixing} use a 3-D wavelet transform to construct multi-resolution trees for synthesizing dynamic textures. Following the idea of Efros and Leung~\cite{efros-nonparam-sampling}, patch-based methods can be adapted to synthesize stationary dynamic textures, see for instance~\cite{WeiLevoy,Kwatra2003}. Doretto~{\it et al.}~\cite{Doretto04spatiallyhomogeneous,doretto-ijcv} extend their initial AR models using stationary multi-scale AR models. In this paper, we consider a more direct approach to build stationary AR models using convolutive iterations, which leads to a more compact and simpler parameterization of the models.
+Recently, a compact Gaussian texton has been proposed for stationary 2-D textures~\cite{Desolneux-Moisan-12}, and we extend it to dynamic models.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\paragraph{Texture mixing}
+
+Mixing texture models requires to design algorithms to average distributions estimated from several input exemplars. The simplest approach consists in using mixture of distributions, see for instance~\cite{bar-joseph-texture-mixing}. The use of non-parametric histogram averaging has also been proposed for grayscale images~\cite{matusik-mixing} as well as color and wavelet features~\cite{rabin-textures}. Ruiters~\emph{et. al.}~\cite{ruiters-2010-interpolation} propose a patch-based approach for texture interpolation. Soheil~\emph{et. al.}~\cite{ImageMelding12} report state-of-the-art results on texture mixing using the patch match method. Mixtures of Gaussians have been used to interpolate between AR models~\cite{ar-mixing}, an approach that can generate non-Gaussian models. In contrast, we propose a method based on the theory of optimal transport to ensure that the texture models stay Gaussian during the interpolation. We also expose how to apply this optimal transport methodology to Gaussian AR models, which is closely related to some previous works on the geometry of AR manifolds~\cite{ravishanker-arfima,ravishanker-arma,garderen-ar}.
+
+Optimal transport (OT)~\cite{villani-topics} has been used intensively in computer vision as a metric between statistical features~\cite{rubner-emd}. It has been much less employed in computer graphics for image processing and synthesis, with the notable exception of~\cite{rabin-textures}, that handles statistical constraints for synthesis using a non-parametric point cloud discretization. Note that Gaussian OT has been adopted for color manipulation~\cite{fpitie07a} but never to achieve image modeling nor synthesis.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Contributions}
+\label{sec-contrib}
+
+The first set of contributions of this paper is the development of two novel Gaussian texture models. The first one extends the SN model of Galerne~\emph{et. al.}~\cite{galerne-ieee} to the setting of dynamic textures. The second one is a specialization of the AR model of Doretto~\emph{et. al.}~\cite{doretto-ijcv} to the setting of spatially stationary textures. We show how both models are parameterized by a localized set of filters called \emph{textons}. Our second set of contributions is a novel framework to interpolate between two or more Gaussian texture models, using geodesic and barycenter computations. This texture mixing method is based on a displacement interpolation in the OT manifold of Gaussian distributions. Finally, we show the versatility of this novel group of methods and how, by explicitly using the stationarity assumption, we can enable the definition of fast algorithms for both analysis and synthesis. 
+
+The source code to reproduce the figures of this article, as well as a database of stationary dynamic textures, and some synthesis and mixing results, are available online\footnote{\url{https://github.com/gpeyre/2013-SIIMS-gaussian-textures}}. Preliminary versions of this work were presented in the conference papers~\cite{2012-icip-dyntex,2013-ssvm-mixing}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Organization of the Paper}
+
+Section~\ref{sec-stat-model-tetxures} introduces the notations of this paper. Sections~\ref{sec-sn} and~\ref{sec-ar} detail respectively our SN and AR Gaussian texture models and explain how to learn and synthesize textures using each of these models.
+Numerical results and comparisons between these two models are shown in section~\ref{sec-numerics-1}. Then, the framework for texture mixing is introduced. Section~\ref{sec-geodesic} explains how to use optimal transport to compute a geodesic path that mixes two different Gaussian texture models and section~\ref{sec-barycenter} extends this construction to compute a barycenter of more than two models.

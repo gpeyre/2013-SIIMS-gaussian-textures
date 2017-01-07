@@ -1,0 +1,138 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Barycenter Mixing of Several Gaussian Models}
+
+
+This section extends the construction of Section~\ref{sec-geodesic} to the case of mixing an arbitrary number of Gaussian models. The method does not change, but the computation is more involved since no closed form is known for the barycenter. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Optimal Transport Barycenter of Gaussian Distributions}
+
+Given a family of Gaussian distributions $( \distr_i )_{i \in I}$ and weights $\rho = (\rho_i)_{i \in I}$ with $\rho_i \geq 0, \sum_i \rho_i=1$, the barycenter according to some distance $d$ is defined as
+\eql{\label{eq-dfn-barycenter}
+	\distr_\rho = \uargmin{\distr} \sum_{i \in I} \rho_i d(\distr_i,\distr)^2.
+}
+Note that when $|I|=2$, one recovers the definition~\eqref{eq-dfn-path}. Note that $\rho \in (\RR^+)^{I}$ is now a vector of barycentric coordinates (which differs from Section~\ref{sec-geodesic} where $\rho$ was a single scalar). We now recall a result proved in \cite{Carlier_wasserstein_barycenter}.
+
+\begin{proposition}\label{prop-bary-gaussian}
+	If at least one of the $\Cov_{i}$ has full rank, then the OT barycenter $\distr_\rho$ of  $(\distr_i = \Nn(\Mean_i,\Cov_i))_{i \in I}$ exists, is unique, and is a Gaussian process $\Nn(\Mean_\rho,\Cov_\rho)$ where
+	\eq{
+		\Mean_\rho = \sum_{i \in I} \rho_i \Mean_i
+	}
+	and $\Cov_\rho$ is the unique solution of the following fixed point equation
+	\eql{\label{eq-ot-barycenter}
+		\Phi(\Cov_\rho) = \Cov_\rho 
+		\qwhereq
+		\Phi(\Cov)=
+		\sum_{i \in I} \rho_i \pa{\Cov^{1/2} \Cov_i \Cov^{1/2} }^{1/2}.
+	}
+\end{proposition}
+
+A difficult open problem is to determine under which hypothesis the barycenter is still unique when all the covariances $\Cov_i$ are rank-deficient, which is the case when averaging SN models. In the case $|I|=2$, Proposition~\ref{prop-geod-gaussian} ensures that this is the case if the kernel of the covariances are not orthogonal, which is likely to be the case in a generic situation. We conjecture that a similar behavior still holds in the case $|I|>2$ and we did not encounter any case of non-uniqueness during our numerical simulations. 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Barycenter of SN Models}
+
+%%
+\paragraph{Fixed point equation}
+
+The following proposition, which is a direct consequence of Proposition~\ref{prop-bary-gaussian}, describes the barycenter of SN models using a series of fixed point equation over the Fourier domain.
+
+\begin{proposition}
+	If $(\distr_i = \Nn(\Mean_i,\Cov_i))_{i \in I}$ are stationary Gaussian processes, a barycenter satisfies
+	\eql{\label{eq:fp}
+		\foralls \om \in U, \quad
+		\hat \cov_\rho(\om) = \Phi_\om(\hat \cov_\rho(\om))
+	}
+	where
+	\eq{
+		\Phi_\om : c \in \CC^{d \times d} 
+		\mapsto 
+		\sum_{i \in I} \rho_i \pa{ c^{1/2} \hat \cov_i(\om) c^{1/2} }^{1/2} \in \CC^{d \times d}.
+	}
+\end{proposition}
+
+
+We note that in general, $\distr_\rho$ is not Spot Noise because $\hat\cov_\rho(\om)$ is not necessarily rank one.
+
+%%
+\paragraph{Numerical scheme}
+
+In general, put aside the case where the covariances $\hat \cov_i(\om)$ diagonalize in the same bases, or the case $|I|=2$ (see Theorem~\ref{thm-geodesic-spot-noise}), it is not possible to solve the fixed point equation~\eqref{eq:fp} in closed form. 
+
+Following \cite{knott-barycenter-gaussian}, we propose to approximate $\hat \cov_\rho(\om)$ by iterating the mapping $\Phi_\om$. Formally, for each $\om \in U$, we initialize $\hat \cov_\rho^{(0)}(\om)$ (for instance using $\hat \cov_i(\om)$ for some $i \in I$) and then iterate
+\eql{\label{eq-numerical-scheme-barycenter}
+	\foralls \ell \geq 0, \quad \hat \cov_\rho^{(\ell+1)}(\om) = \Phi_\om( \hat \cov_\rho^{(\ell)}(\om) ).
+}
+We observe numerically the convergence 
+\eq{
+	\hat \cov_\rho^{(\ell)}(\om) \overset{\ell \rightarrow +\infty}{\longrightarrow}
+	\hat \cov_\rho(\om)
+}
+where $\hat \cov_\rho(\om)$ is the Fourier transform of the kernel of a barycenter covariance $\Cov_\rho$.
+
+Note that the mapping $\Phi_\om$ is not strictly contracting, but we conjecture that some iterate $\Phi_\om \circ \ldots \circ \Phi_\om$ of this mapping is contracting (as it is the case in dimension $d=1$), although we were not able to prove it in arbitrary dimension $d>1$. 
+
+The numerical computation of $\Phi_\om$ in the case $d=3$ requires the computation of the square root of $3 \times 3$ matrices, which is performed explicitly by computing the eigenvalues of the symmetric matrix as the root of a third order polynomial. Algorithm~\ref{alg-sn-barycenter} details the method.
+
+\begin{algorithm}[ht!]
+\caption{SN Barycenter Synthesis}
+\label{alg-sn-barycenter}
+\begin{algorithmic}[1]
+\Require exemplars $(\tilde f_i \in \RR^{\U \times d})_{i \in I}$, weight $(\rho_{i})_{i \in I} \in (\RR^+)^{I}$ with $\sum_i \rho_i=1$.
+\Ensure sample $f \in \RR^{\tilde \U \times d}$ of the barycentric SN model.
+\Statex
+\begin{enumerate}
+	\algostep{Pre-processing} Compute $(f_i)_{i \in I}$ from $(\tilde f_i)_{i \in I}$ 
+			using~\eqref{eq-preprocess}.
+	\algostep{SN mixing} Compute $\Cov_\rho$ from $(\Cov_i)_{i \in I}$ using the iterations~\eqref{eq-numerical-scheme-barycenter}.
+	\algostep{Texture synthesis} Apply step 3, 4 and 5 of Algorithm~\ref{alg-gaussian-texture-modeling}
+		with $\Cov_\rho$ instead of $\Cov$. 
+\end{enumerate}
+\end{algorithmic}
+\end{algorithm}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Barycenter of AR Models}
+
+For any covariance $(\Cov_i)_{i \in I}$, let us denote
+\eq{
+	\Cov_\rho = \Bary_\rho( \Cov_i )_{i \in I}
+}
+where $\Cov_\rho$ is the covariance of the barycenter $\distr_\rho=\Nn(0,\Cov_\rho)$ of $(\distr_i=\Nn(0,\Cov_i))_{i \in I}$ with weight $\rho$, that minimizes~\eqref{eq-dfn-barycenter} and can be computed using the iterations of the mapping $\Phi$ defined in~\eqref{eq:fp}.
+
+We compute an approximate OT barycenter of the AR models using the low-dimensional mapping exposed in Section~\ref{subsec-ar-geodesic}. This corresponds to computing the AR textons $(\Aa_\rho,\Bb_\rho)$ of the barycenter as
+\eql{\label{eq-ar-mixing-multiple}
+	\foralls \om \in \Ux, \; \foralls \rho \in [0,1], \quad 
+	(\hat A_\rho(\om), \hat B_\rho(\om) ) = \Ga^{-1}\pa{
+		\Bary_{\rho}( \Ga(\hat A_i(\om), \hat B_i(\om) )  )_{i \in I}
+	}.
+}
+Algorithm~\ref{alg-ar-barycenter} details the whole process. 
+
+\begin{algorithm}[ht!]
+\caption{AR Barycenter Synthesis}
+\label{alg-ar-barycenter}
+\begin{algorithmic}[1]
+\Require exemplars $(\tilde f_i \in \RR^{\U \times d})_{i \in I}$, weight $(\rho_{i})_{i \in I} \in (\RR^+)^{I}$ with $\sum_i \rho_i=1$.
+\Ensure sample $f \in \RR^{\tilde \U \times d}$ of the barycentric AR model.
+\Statex
+\begin{enumerate}
+	\algostep{Pre-processing} Compute $(f_i)_{i \in I}$ from $(\tilde f_i)_{i \in I}$ 
+			using~\eqref{eq-preprocess}.
+	\algostep{AR texton learning} For $i \in I$, learn $(\Aa_i,\Bb_i)$ using~\eqref{eq-ar-texton-A} and~\eqref{eq-ar-texton-B}.
+	\algostep{AR mixing} Compute the mixed parameter $(\Aa_\rho,\Bb_\rho)$ by applying~\eqref{eq-ar-mixing-multiple} for each $\om \in \Ux$.
+	\algostep{Texture synthesis} Apply step 4 and 5 of Algorithm~\ref{alg-ar-modeling}
+		with $(\Aa_\rho,\Bb_\rho)$ instead of $(\Aa,\Bb)$. 
+\end{enumerate}
+\end{algorithmic}
+\end{algorithm}
+
+
+
+

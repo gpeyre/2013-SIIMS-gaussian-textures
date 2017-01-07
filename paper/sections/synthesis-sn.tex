@@ -1,0 +1,250 @@
+
+\section{Spot Noise Texture Models}
+\label{sec-sn}
+
+This section introduces the first Gaussian texture model considered in the paper. It is the SN model originally considered by Galerne \emph{et al.}~\cite{galerne-ieee} that we introduce and motivate differently for static textures and extend to dynamic textures. We define the canonical texton which extends the one of Desolneux \emph{et al.}~\cite{Desolneux-Moisan-12,Desolneux-texton} to the dynamic setting. This texton is useful when performing texture synthesis for areas that do not have the same size as the original input texture and it will also be important to perform texture mixing (see Section~\ref{sec-geodesic}).
+
+Given an exemplar texture $f_0 \in \RR^{\U \times d}$, the texture analysis problem corresponds to estimating the  parameters $\Mean$ and $\cov$ of a stationary Gaussian model $\distr = \Nn(\Mean, \cov)$ from $f_0$. The synthesis problem simply corresponds to sampling the distribution to obtain a realization $f$ from $\distr$.
+
+The whole pipeline (analysis and synthesis) for the SN model is summarized in~Algorithm~\ref{alg-gaussian-texture-modeling}. The following part of the section describes in detail each step of the process. Note that some steps (e.g. model resizing and synthesis) will be re-used when performing more complicated tasks such as texture mixing.
+
+It should be noted that the synthesis step of our algorithm is slightly different from the original one in Galerne~\emph{et al.}~\cite{galerne-ieee}, given that they use only gray-scale noise for the sampling. In contrast, we use a $d$-dimensional white noise $w$. This leads to a computational complexity overhead, which is required to be able to handle non-spot noise models (which correspond to non rank-1 matrices $\hat\cov(\om)$). These models arise  when computing Gaussian model barycenters, as detailed in Section~\ref{sec-barycenter}. Note that such non-spot noise covariances also arise when considering covariance estimators different from the empirical periodogram. The most well-known methods are based on multitapers~\cite{Percival-Book}, which denoise the periodogram using windowing with orthogonal Slepian functions~\cite{Slepian-Prolate}.
+
+
+\begin{algorithm}[ht!]
+\caption{SN Texture Analysis and Synthesis}
+\label{alg-gaussian-texture-modeling}
+%\begin{algorithmic}[1]
+\Require exemplar $\tilde f_0 \in \RR^{\U \times d}$. \\
+\Ensure sample $f \in \RR^{\tilde \U \times d}$ of the SN model.
+% \Statex
+\begin{enumerate}
+	\algostep{Pre-processing} Compute $f_0$ from $\tilde f_0$ using~\eqref{eq-preprocess}.
+	\algostep{SN texture analysis} Compute $\Cov$ from $f_0$ using~\eqref{eq-sn-rank1}.
+	\algostep{SN texton computation} Compute the canonical texton $\Texton$ from $\Cov$:
+		\begin{itemize}
+			\item if $\Cov$ is a SN covariance (step 2 has been used),
+				use~\eqref{eq-canonical-texton-sn},
+			\item otherwise use~\eqref{eq-texton-fourier-generic}.
+		\end{itemize}
+	\algostep{Model resizing} Compute $\tilde \Texton$ from $\Texton$ using~\eqref{eq-model-resize}.
+	\algostep{Texture synthesis} Compute $f$ from $\tilde\Texton$ using~\eqref{eq-periodic-synthesis}.
+%		\begin{itemize}
+%			\item for periodic time synthesis, use~\eqref{eq-periodic-synthesis},
+%			\item for infinite time synthesis, use~\eqref{eq-infinite-synthesis}.
+%		\end{itemize}
+\end{enumerate}
+% \end{algorithmic}
+\end{algorithm}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Pre-processing}
+\label{subsec-preprocess-sn}
+
+For the ease of exposition and computational simplicity, we assume periodic boundary conditions. To reduce boundary artifacts during the estimation process, we use as a pre-processing step the method of Moisan~\cite{Moisan11} to extract the periodic component $f_0 = \textrm{Per}(\tilde f_0)$ of an arbitrary input texture $\tilde f_0 \in \RR^{\U \times d}$.
+
+For the sake of completeness, we recall that this periodic component is computed by solving a Poisson equation
+\begin{align}
+\left\{
+\begin{array}{ll}
+ \Delta f_0 = \Delta_i \tilde f_0 \\
+ \textrm{mean}(f_0) = \textrm{mean}(\tilde f_0),
+\end{array}
+\right.
+\label{eq:app_periodicC}
+\end{align}
+where $\Delta$ is the discrete periodic Laplacian with periodic boundary conditions while
+$\Delta_i$ is computed with non-periodic boundary conditions
+\begin{align*}
+	\Delta f(p) & = \textrm{Card}(\Nn) \cdot f(p) - \sum_{p'-p \in \Nn} f(p) \\
+	\Delta_i f(p) & = \textrm{Card}((p+\Nn) \cap U) \cdot f(p) - \sum_{p' \in (p+\Nn) \cap U} f(p').
+\end{align*}
+Here, $\Nn$ is the $4$-connected (resp. $6$-connected) neighborhood for static (resp. for dynamic) textures; while $(p+\Nn) \cap U$ denotes the neighborhood of $p$ inside $U$. The problem in Equation~\eqref{eq:app_periodicC} can be solved in $O(Nd\log(N))$ operations in the Fourier domain as
+\eql{\label{eq-preprocess}
+	\hat{f_0}(\om) =
+	\choice{
+		\frac{1} {2  d - 2 \sum_{i=1}^{d} \cos\big(\frac{2\pi \om_i}{N_i} \big) }
+			\widehat{\Delta_i f}(\om), 	\qifq \om \neq 0, \\
+	 	N \cdot \textrm{mean}(\tilde f_0),  \qifq \om=0,
+	}	
+}
+see~\cite{Moisan11} for more details.
+
+
+% The periodic component of a color image or video can be obtained by computing its periodic component for each channel.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Spot Noise Texture Analysis}
+
+SN models, first introduced in~\cite{Wijk1991} by van Wijk, are Gaussian distributions for which the power spectrum is equal to the empirical power spectrum of some input exemplar. These models have been rigorously studied and extended to color textures by Galerne \emph{et al.}~\cite{galerne-ieee}. They can be equivalently described as a convolution of each channel of the exemplar with the same gray-scale white noise.
+
+Given some deterministic input exemplar $f_0 \in \RR^{\U \times d}$, we can estimate the mean of the Gaussian model $\Nn(\Mean,\Cov)$ as the empirical mean
+%covariance
+\eql{\label{eq-sn-mean}
+	\foralls p \in U, \quad
+	\Mean(p) = \mean = \frac{1}{N}\sum_{p'\in U} f_0(p').
+}
+We estimate the kernel $\cov$ of the covariance matrix $\Cov$ using the empirical
+covariance, which is also known as the empirical periodogram
+\eql{\label{eq-cov-sn}
+    \forall p \in U, \quad
+    \cov(p) = \frac{1}{N} \sum_{p' \in U} (f_0(p)-m) (f_0(p' + p) -m)^* \in \RR^{d \times d}.
+}
+This estimator can also be understood as the maximum likelihood estimator (MLE) of the covariance matrix from a sample $f_0$~\cite{Mardia-Book}.
+
+The correlation $\cov$ is the auto-correlation of the input exemplar $\cov=(f_0-m) \star (\bar f_0-m)$ where $\bar f_0(p) = f_0(-p)$. Its Fourier spectrum is composed of rank-1 matrices, which offers a convenient way to estimate the kernel in $O(Nd \log(N))$ operations
+\eql{\label{eq-sn-rank1}
+	\foralls \om \neq 0, \quad \hat \cov(\om) = \frac{1}{N} \hat f_0(\om) \hat f_0(\om)^*,
+}
+and $\hat\cov(0) = 0$. Imposing that $\hat \cov(\om)$ is rank-1 is actually a necessary and sufficient condition to be a SN model for some image $f_0$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Texton Computation}
+
+%%
+\paragraph{Generic texton}
+
+Following~\cite{Desolneux-Moisan-12}, we define a texton as a basic element that parameterizes a Gaussian texture model. This texton parameterization is useful to perform texture synthesis, since it allows easy texture model resizing. It is also at the heart of the texture mixing method described in the following sections. 
+
+A texton $\Texton \in \RR^{(\U \times d) \times (\U \times d)}$ associated to a Gaussian distribution $\Nn(\Mean,\Cov)$ is any matrix such that $\Cov = \Texton \Texton^*$. In the case of a stationary Gaussian process, the covariance $\cov$ is a convolution operator (see~\eqref{eq-cov-convol}). A texton is thus any convolution operator $\Texton$ with the convolution kernel $\texton$ whose Fourier transform satisfies
+\eq{
+	\hat \cov(\om) = \hat \texton(\om) \hat \texton(\om)^*,
+	\qwhereq
+	\hat \texton(\om)  \in \CC^{d \times d}.
+}
+Recall that $\hat \cov$ is the Fourier transform of the correlation kernel $\cov$ and that it is defined in~\eqref{eq-cov-convol-fft}. It is thus possible to compute a texton using for instance a Cholesky decomposition of $\hat \cov(\om)$, see for instance~\cite{Gentle}.
+
+%%
+\paragraph{Canonical texton -- general case}
+
+Following~\cite{Desolneux-texton}, we define a texton which is uniquely associated to a given texture model. The canonical texton $\Texton$ associated to a Gaussian distribution $\Nn(\Mean,\Cov)$ is its unique real and symmetric positive texton.
+	
+% \begin{definition}[Canonical Gaussian texton]
+% \end{definition}
+
+We denote the SVD factorization of $\hat \cov(\om)$ by
+\eql{\label{eq-svd-canonical-texton}
+	\hat \cov(\om) = \hat Q(\om) \diag( \la_1(\om),\ldots,\la_d(\om) )  \hat Q(\om)^* \in \CC^{d \times d}
+}
+where $(\la_1(\om),\ldots,\la_d(\om)) \in \RR_+^d$ are the eigenvalues of $\hat \cov(\om)$, and $\hat Q(\om) \in \CC^{d \times d}$ is the unitary matrix of eigenvectors.
+
+
+The canonical texton can be computed in $O(Nd\log(N))$ operations over the Fourier domain,
+\eql{\label{eq-texton-fourier-generic}
+	\hat K(\om) = \hat Q(\om)  \diag( \la_1(\om)^{1/2},\ldots,\la_d(\om)^{1/2} )\hat Q(\om)^* \in \CC^{d \times d}
+}
+which only involves the diagonalization of $d \times d$ matrices, recall that $d=1$ or $d=3$.
+
+This canonical texton $\Texton$ can thus be stored as a set $(\texton(p)_{i,j})_{1 \leq i \leq j \leq d}$ of $d(d+1)/2$ filters, and together with $\mean$ they completely characterize a Gaussian texture model.  Note also that this canonical texton is in general different from the rank-1 color texton introduced in~\cite{Desolneux-Moisan-12}.
+
+
+%%
+\paragraph{Canonical texton -- SN case}
+
+When the model $\Nn(\Mean,\Cov)$ is a SN model learned from some input exemplar $f_0$, the covariance frequencies are rank-1 (see~\eqref{eq-sn-rank1}). The canonical texton, that we call SN-texton, obeys the same property, and it can be computed in the Fourier domain as
+\eql{\label{eq-canonical-texton-sn}
+    \foralls \om, \quad
+    \hat \texton(\om) = \frac{1}{\sqrt{N}}\frac{\hat f(\om) \hat f(\om)^*}{ |\hat f(\om)|} \in \CC^{d \times d},
+}
+where $|v|$ is the norm of $v$.
+In the special case of $d=1$ (gray-scale images), one obtains the original texton introduced in~\cite{Desolneux-Moisan-12}
+\eq{
+    \foralls \om, \quad
+    \hat \texton(\om) = \frac{1}{\sqrt{N}}|\hat f(\om)| \in \RR^+,
+}
+that has several interesting optimality properties in terms of compactness, see~\cite{Desolneux-Moisan-12}. It is unclear whether similar properties also hold in the vectorial case.
+
+The obtained SN-texton $\texton \in \RR^{N \times d}$ is a set of $d(d+1)/2$ space-time 3-D filters.
+An example of such SN-textons is displayed in Figure~\ref{fig:textons-example1}. The numerical experiments presented in Section~\ref{sec-numerics-1} show that, in practice, the obtained SN-texton is highly compact in space and time.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Model Resizing}
+
+An important requirement of texture synthesis methods is to be able to generate texture of an arbitrary size $(\tilde N_i)_{i=1}^d$. Let us denote by $\tilde \U$ the new pixel domain of dimension $\tilde N=\prod_i \tilde N_i$, and its associated Gaussian distribution $\Nn(\tilde \Mean, \tilde\Cov)$ where $\tilde \Mean \in \RR^{\tilde \U \times d}$ and $\tilde \Cov \in \RR^{(\tilde \U \times d) \times (\tilde \U \times d)}$, which can either extrapolate (when $\tilde N_i>N_i$) or restrict (when $\tilde N_i<N_i$) the initial model.
+
+
+Since $\Mean(p) = \mean$ is constant, one defines $\tilde \Mean(p) = \mean$. A naive approach to obtain $\tilde \Cov$ would be to either crop or zero-pad the original covariance $\cov$. This is not an acceptable method, since the resulting $\tilde\Cov$ would not be positive and symmetric, in general. Following the idea introduced in~\cite{Desolneux-Moisan-12} for the rank-1 color-texton, we propose to crop or zero pad the kernel $\texton$ associated to the canonical texton $\Texton$.
+
+
+\if 0
+Another reason for introducing a pixel domain $\tilde \U$ that differs from the initial domain $U$ is to ensure causality of the covariance factorization, meaning $\texton(x,t)=0$ when $t < 0$. Denoting $\tilde N_3$ the number of time frames of the cropped texton, one can simply perform a time-shift of the texton (which does not modify the covariance $\tilde\Cov$), which is equivalent to not centering the texton at 0.
+
+We thus denote by $\de = (\de_x,\de_t)$ the center of the target domain $\tilde \U$, where usually $\de_x=0$ and, to compute a time causal texton, $\de_t=-\tilde N_3/2$. 
+
+\fi
+
+
+The resized and translated texton is
+\eql{\label{eq-model-resize}
+	\foralls p \in \tilde \U, \quad
+	\tilde \texton(p) =
+	\choice{
+		\texton(p) \qifq p \in U, \\
+		0 \quad \text{otherwise}.
+	}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Texture Synthesis}
+
+When the texton $\tilde\Texton$ of a model $\distr=\Nn(\tilde{\Mean},\tilde\Cov)$ has been defined (either as the SN texton of an input texture, or from the mixing process described in the following sections), one can easily perform texture synthesis. This corresponds to computing a sample $f \in \RR^{\U \times d}$ drawn from the distribution $\distr$. Depending on the properties of the texton (e.g. its spatial extent), one can use either Fourier-based, convolution-based, or a mixed formulation.
+
+%%%
+\paragraph{Time-periodic synthesis}
+
+A time-periodic synthesis is achieved in $O(Nd\log(N))$ operations by sampling independently each Fourier frequency as follows
+\eql{\label{eq-periodic-synthesis}
+	\foralls \om \in U, \quad
+	\hat f(\om) =
+	\choice{
+		N m \qifq \om=0, \\
+		\widehat{\tilde \texton}(\om) \hat w(\om)
+		\quad \qifq \om \neq 0
+	}
+	\;\text{where}\;
+	w \SampledFrom \Nn(0,\Id_{(\U \times d) \times (\U \times d)})
+}
+where $\SampledFrom$ means ``sampled from'' (i.e. it is a realization, not a random variable).
+
+%%%
+\paragraph{Infinite time synthesis}
+
+Computing an infinite dynamic texture $f(x,t)=f_t(x)$ for any $t \in \NN$ requires computing an infinite convolution. 
+% We assume that the resized texton $\tilde\Texton$ has been shifted so that it is causal, i.e. $\tilde\texton(x,t)=0$ for $t \leq 0$. This implies that 
+This convolution can be written as
+\eq{\label{eq-infinite-synthesis}
+	f_t = \Mean + \sum_{k=1}^{\tilde N_3} \tilde\texton( \cdot, k ) \star w_{t-k}
+	\qwhereq
+	w_t \SampledFrom \Nn(0,\Id_{(\tilde N_1  \tilde N_2  d) \times (\tilde N_1  \tilde N_2  d)}),	
+}
+where the $w_t$ are independent.
+Note that this formula can be implemented in a time-frame by time-frame manner, and only requires to store a block of $\tilde N_3$ frames of noise samples at each time step.
+
+\if 0
+ This implies that this infinite convolution can be computed time frame by time frame using for each $t$ a block of $\tilde N_3$ frame of noise, that we denote
+\eq{	
+	w_t = ( w_t^{(1)}, \ldots, w_t^{(\tilde N_3)} ) \in \RR^{\tilde N_1 \times \tilde N_2 \times \tilde N_3 \times d}
+	\qwhereq
+	 w_t^{(k)} \SampledFrom \Nn(0,\Id_{(\tilde N_1  \tilde N_2  d) \times (\tilde N_1  \tilde N_2  d)}).
+}
+This block is used to compute for each $t \geq 0$ the sampled frame as
+\eql{\label{eq-infinite-synthesis}
+	f_t = \Mean + \sum_{k=1}^{\tilde N_3} w_t^{(k)} \star \tilde\texton( \cdot, k-1 )
+}
+where $\star$ is the 2-D space-only convolution that can be implemented using either the spatial definition of the convolution (see~\eqref{eq-st-conv} in the special case $N_3=1$) or
+the Fourier domain formulation (see~\eqref{eq-st-conv-fourier}).
+
+The block of noise is then updated by a time-shift and by adding new noise $w^{(0)}$
+\eq{
+	w_{t+1} = ( w^{(0)}, w_t^{(1)}, \ldots, w_t^{(\tilde N_3-1)} )
+	\qwhereq
+	w^{(0)} \SampledFrom \Nn(0,\Id_{\tilde N_1 \times \tilde N_2}).
+}
+\fi
+

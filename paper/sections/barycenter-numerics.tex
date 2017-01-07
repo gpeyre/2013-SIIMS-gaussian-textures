@@ -1,0 +1,257 @@
+
+\subsection{Numerical Results for Barycenter Mixing}
+
+This section shows some numerical results obtained with the barycenter mixing method with three input textures. Given the input textures $(f_0,f_1,f_2)$, we first learn their Gaussian models (SN or AR), and then compute the weighted barycenters with Algorithm~\ref{alg-sn-barycenter} (for SN) and Algorithm~\ref{alg-ar-barycenter} (for AR).  Figure~\ref{fig-trilinear-coordinates} displays the barycentric coordinates $\rho = (\rho_0, \rho_1, \rho_2) \in \RR^3$ on a triangle, whose vertexes correspond to $\rho = (1,0,0)$, $\rho = (0,1,0)$, and $\rho = (0,0,1)$, respectively. We illustrate the method by navigating along two straight paths $s \mapsto \rho(s)$ that are displayed on the same figure.
+
+Figure~\ref{fig-OT-barycenter-SST} displays the results obtained on static textures for the AR barycenters, along the two paths.
+Note how the synthesized textures obtained from the models that are not located at the vertexes have mixed colors and texture patterns.
+
+
+%\begin{figure}[ht!]
+%\centering
+%\begin{tabular}{cc}
+%\multirow{3}{*}[15pt]{
+%  \includegraphics[width=0.5 \linewidth]{barycenter_fig.pdf}
+%}
+%&
+%  \includegraphics[width=0.14 \linewidth]{barycenter1/Original1drygrass.png}
+%  \includegraphics[width=0.14 \linewidth]{barycenter1/Origina3bluejeans.png}
+%  \includegraphics[width=0.14 \linewidth]{barycenter1/Original2sand.png} \\
+%&
+%  \includegraphics[width=0.14 \linewidth]{barycenter2/Original1piedra.png}
+%  \includegraphics[width=0.14 \linewidth]{barycenter2/Origina3wood.png}
+%  \includegraphics[width=0.14 \linewidth]{barycenter2/Original2green_fabric.png}\\
+%&
+%  \includegraphics[width=0.14 \linewidth]{barycenter4/Origina3sky.png}
+%  \includegraphics[width=0.14 \linewidth]{barycenter4/Original1sea.png}
+%  \includegraphics[width=0.14 \linewidth]{barycenter4/Original2bluejeans.png}\\
+%&
+%{$f_0$ \hspace{1.2cm}  $f_1$ \hspace{1.2cm} $f_2$ }
+%\end{tabular}
+%\caption{Left:  $(\rho_0, \rho_1, \rho_2)$ barycentric coordinates together with the two paths $s \mapsto \rho(s)$ used in our experiments. Right: input textures $(f_0,f_1,f_2)$ used for the experiments showed on Figure~\ref{fig-OT-barycenter-SST}. Each column corresponds to a single experiment, where $(f_0,f_1,f_2)$ are the exemplar textures located at the vertices of the triangle. }
+%\label{fig-trilinear-coordinates}
+%\end{figure}
+
+\begin{figure}[ht!]
+\centering
+\begin{tabular}{cc}
+\multirow{3}{*}[15pt]{
+  \includegraphics[width=0.5 \linewidth]{barycenter_fig.pdf}
+}
+&
+\fbox{
+  \includegraphics[width=0.14 \linewidth]{barycenter1/Original1drygrass.png}
+  \includegraphics[width=0.14 \linewidth]{barycenter1/Origina3bluejeans.png}
+  \includegraphics[width=0.14 \linewidth]{barycenter1/Original2sand.png}} \\
+&
+\fbox{
+  \includegraphics[width=0.14 \linewidth]{barycenter2/Original1piedra.png}
+  \includegraphics[width=0.14 \linewidth]{barycenter2/Origina3wood.png}
+  \includegraphics[width=0.14 \linewidth]{barycenter2/Original2green_fabric.png}}\\
+&
+\fbox{
+  \includegraphics[width=0.14 \linewidth]{barycenter4/Origina3sky.png}
+  \includegraphics[width=0.14 \linewidth]{barycenter4/Original1sea.png}
+  \includegraphics[width=0.14 \linewidth]{barycenter4/Original2bluejeans.png}}\\
+&
+{$f_0$ \hspace{1.2cm}  $f_1$ \hspace{1.2cm} $f_2$ }
+\end{tabular}
+\caption{Left:  $(\rho_0, \rho_1, \rho_2)$ barycentric coordinates together with the two paths $s \mapsto \rho(s)$ used in our experiments. Right: input textures $(f_0,f_1,f_2)$ used for the experiments showed on Figure~\ref{fig-OT-barycenter-SST}. Each row corresponds to a single experiment, where $(f_0,f_1,f_2)$ are the exemplar textures located at the vertexes of the triangle. }
+\label{fig-trilinear-coordinates}
+\end{figure}
+
+
+\begin{figure}[ht!]
+\vspace{3mm}
+{\raggedright
+ \hspace{0.7cm} $s=0$ \hspace{0.82cm}  $s=0.2$ \hspace{0.82cm} $s=0.4$ \hspace{0.82cm}  $s=0.6$ \hspace{0.82cm}  $s=0.8$ \hspace{0.82cm}  $s=1$\\
+}
+\vspace{1mm}
+{\centering
+    \includegraphics[width=0.16 \linewidth]{barycenter1/1drygrass1-sand0-bluejeans0_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter1/2drygrass08-sand01-bluejeans01_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter1/3drygrass06-sand02-bluejeans02_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter1/4drygrass04-sand03-bluejeans03_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter1/5drygrass02-sand04-bluejeans04_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter1/6drygrass0-sand05-bluejeans05_siims.png} \\
+\vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{barycenter1/1drygrass0-sand0-bluejeans1_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter1/2drygrass01-sand01-bluejeans08_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter1/3drygrass02-sand02-bluejeans06_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter1/4drygrass03-sand03-bluejeans04_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter1/5drygrass04-sand04-bluejeans02_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter1/6drygrass05-sand05-bluejeans0_siims.png} \\
+(a) Barycenter texture mixing of the three texture models in the $1^{st}$ set. \\
+\vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{barycenter2/1piedra1-green_fabric0-wood0_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter2/2piedra08-green_fabric01-wood01_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter2/3piedra06-green_fabric02-wood02_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter2/4piedra04-green_fabric03-wood03_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter2/5piedra02-green_fabric04-wood04_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter2/6piedra0-green_fabric05-wood05_siims.png} \\
+\vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{barycenter2/1piedra0-green_fabric0-wood1_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter2/2piedra01-green_fabric01-wood08_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter2/3piedra02-green_fabric02-wood06_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter2/4piedra03-green_fabric03-wood04_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter2/5piedra04-green_fabric04-wood02_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter2/6piedra05-green_fabric05-wood0_siims.png} \\
+(b) Barycenter texture mixing of the three texture models in the $2^{nd}$ set. \\
+\vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{barycenter4/1sea0-bluejeans0-sky10_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter4/2sea1-bluejeans1-sky8_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter4/3sea2-bluejeans2-sky6_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter4/4sea3-bluejeans3-sky4_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter4/5sea4-bluejeans4-sky2_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter4/6sea5-bluejeans5-sky0_siims.png} \\
+\vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{barycenter4/1sea10-bluejeans0-sky0_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter4/2sea8-bluejeans1-sky1_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter4/3sea6-bluejeans2-sky2_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter4/4sea4-bluejeans3-sky3_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter4/5sea2-bluejeans4-sky4_siims.png}
+    \includegraphics[width=0.16 \linewidth]{barycenter4/6sea0-bluejeans5-sky5_siims.png} \\
+%    \includegraphics[width=0.16 \linewidth]{barycenter3/1greenTextile1-green_fabric0-cork0_siims.png}
+%    \includegraphics[width=0.16 \linewidth]{barycenter3/2greenTextile08-green_fabric01-cork01_siims.png}
+%    \includegraphics[width=0.16 \linewidth]{barycenter3/3greenTextile06-green_fabric02-cork02_siims.png}
+%    \includegraphics[width=0.16 \linewidth]{barycenter3/4greenTextile04-green_fabric03-cork03_siims.png}
+%    \includegraphics[width=0.16 \linewidth]{barycenter3/5greenTextile02-green_fabric04-cork04_siims.png}
+%    \includegraphics[width=0.16 \linewidth]{barycenter3/6greenTextile0-green_fabric05-cork05_siims.png} \\
+%\vspace{1mm}
+%    \includegraphics[width=0.16 \linewidth]{barycenter3/1greenTextile0-green_fabric0-cork1_siims.png}
+%    \includegraphics[width=0.16 \linewidth]{barycenter3/2greenTextile01-green_fabric01-cork08_siims.png}
+%    \includegraphics[width=0.16 \linewidth]{barycenter3/3greenTextile02-green_fabric02-cork06_siims.png}
+%    \includegraphics[width=0.16 \linewidth]{barycenter3/4greenTextile03-green_fabric03-cork04_siims.png}
+%    \includegraphics[width=0.16 \linewidth]{barycenter3/5greenTextile04-green_fabric04-cork02_siims.png}
+%    \includegraphics[width=0.16 \linewidth]{barycenter3/6greenTextile05-green_fabric05-cork0_siims.png} \\
+(c) Barycenter texture mixing of the three texture models in the $3^{rd}$ set. \\
+}
+\caption{SN barycenter texture mixing of three texture models, using different input exemplar sets $(f_0, f_1, f_2)$ shown in Figure~\ref{fig-trilinear-coordinates}, right. In each sub-figure, the top row displays the mixing along the path $\rho(s) = (1-s, s/2, s/2)$, and the bottom row displays the mixing on the path $\rho(s) = (s/2, 1-s, s/2)$, where $s \in [0, 1]$ parameterizes the path.
+}
+\label{fig-OT-barycenter-SST}
+\end{figure}
+
+
+Figure~\ref{fig:dynamic-barycenter-ar} displays the results obtained with dynamic textures mixing using the AR barycenter method. Each column corresponds to a single video, where every image is a single frame, ordered by time from top to bottom. The results obtained with the SN barycenter are visually similar.
+
+% Figure~\ref{fig:dynamic-barycenter-ar} shows the same experiments, but using the AR barycenters.
+
+
+\if 0
+\begin{figure}[ht!]
+{\centering
+{\raggedright
+ \hspace{0.7cm} $s=0$ \hspace{0.82cm}  $s=0.2$ \hspace{0.82cm} $s=0.4$ \hspace{0.82cm}  $s=0.6$ \hspace{0.82cm}  $s=0.8$ \hspace{0.82cm}  $s=1$\\
+}
+\vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-1/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-2/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-3/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-4/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-5/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-6/waterfall3_-ocean_De_-fire_sm1.png}\\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-1/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-2/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-3/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-4/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-5/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-6/waterfall3_-ocean_De_-fire_sm2.png}\\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-1/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-2/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-3/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-4/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-5/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-t-6/waterfall3_-ocean_De_-fire_sm3.png}\\
+\vspace{1mm}
+(a) mixing dynamic textures on the path $\rho(s) = (1-s, s/2, s/2)$.\\
+\vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-1/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-2/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-3/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-4/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-5/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-6/waterfall3_-ocean_De_-fire_sm1.png}\\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-1/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-2/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-3/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-4/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-5/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-6/waterfall3_-ocean_De_-fire_sm2.png}\\
+\vspace{1mm}
+    %
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-1/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-2/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-3/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-4/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-5/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix4-2-t-6/waterfall3_-ocean_De_-fire_sm3.png}\\
+(b) mixing dynamic textures on the path $\rho =(s/2, 1-s, s/2)$.\\
+}
+\caption{Barycenter dynamic texture mixing of three input texture videos, using Spot Noise models. The top three rows show 3 consecutive frames of the mixing on the path $\rho(s) = [1-s, \frac{s}{2}, \frac{s}{2}]$, and the bottom three rows display those on the path $\rho(s) = [\frac{s}{2}, 1-s, \frac{s}{2}]$, where $s = 0, \dots, 1$.
+}
+\label{fig:dynamic-barycenter-sn}
+\end{figure}
+\fi
+
+
+\begin{figure}[ht!]
+{\centering
+{\raggedright
+ \hspace{0.7cm} $s=0$ \hspace{0.82cm}  $s=0.2$ \hspace{0.82cm} $s=0.4$ \hspace{0.82cm}  $s=0.6$ \hspace{0.82cm}  $s=0.8$ \hspace{0.82cm}  $s=1$\\
+}
+\vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-1/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-2/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-3/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-4/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-5/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-6/waterfall3_-ocean_De_-fire_sm1.png}\\
+\vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-1/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-2/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-3/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-4/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-5/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-6/waterfall3_-ocean_De_-fire_sm2.png}\\
+\vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-1/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-2/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-3/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-4/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-5/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-t-6/waterfall3_-ocean_De_-fire_sm3.png}\\
+\vspace{1mm}
+(a) mixing dynamic textures on the path $\rho(s) = (1-s, s/2, s/2)$.\\
+ \vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-1/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-2/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-3/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-4/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-5/waterfall3_-ocean_De_-fire_sm1.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-6/waterfall3_-ocean_De_-fire_sm1.png}\\
+\vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-1/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-2/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-3/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-4/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-5/waterfall3_-ocean_De_-fire_sm2.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-6/waterfall3_-ocean_De_-fire_sm2.png}\\
+\vspace{1mm}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-1/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-2/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-3/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-4/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-5/waterfall3_-ocean_De_-fire_sm3.png}
+    \includegraphics[width=0.16 \linewidth]{./vMix5-2-t-6/waterfall3_-ocean_De_-fire_sm3.png}\\
+(b) mixing dynamic textures on the path $\rho =(s/2, 1-s, s/2)$.\\
+}
+\caption{Barycenter dynamic texture mixing of three input texture videos, using AR models. The top three rows show 3 consecutive frames of the mixing on the path $\rho(s) = (1-s, s/2, s/2)$, and the bottom three rows display those on the path $\rho(s) = (s/2, 1-s, s/2)$, where $s \in [0, 1]$ parameterizes the path.
+}
+\label{fig:dynamic-barycenter-ar}
+\end{figure} 

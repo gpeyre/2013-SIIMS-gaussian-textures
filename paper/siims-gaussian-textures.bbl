@@ -1,0 +1,196 @@
+\begin{thebibliography}{10}
+
+\bibitem{Carlier_wasserstein_barycenter}
+{\sc M.~Agueh and G.~Carlier}, {\em Barycenters in the {W}asserstein space},
+  SIAM J. on Mathematical Analysis, 43 (2011), pp.~904--924.
+
+\bibitem{amari-book}
+{\sc S.~Amari}, {\em Differential-geometrical methods in statistics}, Lecture
+  notes in statistics, Springer-Verlag, 1985.
+
+\bibitem{atkinson-rao}
+{\sc C.~Atkinson and A.F.S. Mitchell}, {\em Rao's distance measure}, Sankhya,
+  The Indian J. of Stat., Ser. A, 43 (1981), pp.~345--365.
+
+\bibitem{bar-joseph-texture-mixing}
+{\sc Z.~Bar-Joseph, R.~El-Yaniv, D.~Lischinski, and M.~Werman}, {\em Texture
+  mixing and texture movie synthesis using statistical learning}, IEEE Tr. on
+  Vis. and Comp. Graph., 7 (2001), pp.~120--135.
+
+\bibitem{ar-mixing}
+{\sc A.~B. Chan and N.~Vasconcelos}, {\em Mixtures of dynamic textures}, in
+  ICCV, 2005, pp.~I: 641--647.
+
+\bibitem{Desolneux-Moisan-12}
+{\sc A.~Desolneux, L.~Moisan, and S.~Ronsin}, {\em A compact representation of
+  random phase and {G}aussian textures}, in Proc. the IEEE International
+  Conference on Acoustics, Speech, and Signal Processing (ICASSP), 2012,
+  pp.~1381--1384.
+
+\bibitem{Desolneux-texton}
+\leavevmode\vrule height 2pt depth -1.6pt width 23pt, {\em A texton for random
+  phase and {G}aussian textures}, in preparation,  (2013).
+
+\bibitem{doretto-ijcv}
+{\sc G.~Doretto, A.~Chiuso, Y.~Wu, and S.~Soatto}, {\em Dynamic textures},
+  International Journal of Computer Vision, 51 (2003), pp.~91--109.
+
+\bibitem{Doretto04spatiallyhomogeneous}
+{\sc G.~Doretto, E.~Jones, and S.~Soatto}, {\em Spatially homogeneous dynamic
+  textures}, in Proc. European Conf. Computer Vision, 2004, pp.~591--602.
+
+\bibitem{gowson-transport-gaussian}
+{\sc D.~C. Dowson and B.~V. Landau}, {\em The fr\'echet distance between
+  multivariate normal distributions}, J. Multivariate Anal., 3 (1982),
+  pp.~450--455.
+
+\bibitem{efros-nonparam-sampling}
+{\sc A.~A. Efros and T.~K. Leung}, {\em Texture synthesis by non-parametric
+  sampling}, in Proc. of ICCV '99, 1999, pp.~1033--1038.
+
+\bibitem{2013-ssvm-mixing}
+{\sc S.~Ferradans, G-S. Xia, G.~Peyr{\'e}, and J-F. Aujol}, {\em Static and
+  dynamic texture mixing using optimal transport}, in Scale Space and
+  Variational Methods in Computer Vision, vol.~7893, 2013, pp.~137--148.
+
+\bibitem{galerne-ieee}
+{\sc B.~Galerne, Y.~Gousseau, and J-M. Morel}, {\em Random phase textures:
+  Theory and synthesis}, IEEE Trans. on Image Processing, 20 (2011),
+  pp.~257--267.
+
+\bibitem{Gentle}
+{\sc J.~E. Gentle}, {\em Numerical Linear Algebra for Applications in
+  Statistics}, Berlin: Springer-Verlag, 1998, ch.~Cholesky Factorization,
+  pp.~93--95.
+
+\bibitem{GhanemA07}
+{\sc B.~Ghanem and N.~Ahuja}, {\em Phase based modelling of dynamic textures},
+  in Proc. Int. Conf. Computer Vision, 2007, pp.~1--8.
+
+\bibitem{julesz62}
+{\sc B.~Julesz}, {\em Visual pattern discrimination}, IEEE Trans. Information
+  Theory, 8 (1962), pp.~84--92.
+
+\bibitem{Julesz71}
+{\sc B.~Julesz, E.~N. Gilbert, L.~A. Shepp, and H.~L. Frisch}, {\em Inability
+  of humans to discriminate between visual textures that agree in second-order
+  statistics -- revisited}, Perception, 2 (1973), pp.~391--405.
+
+\bibitem{knott-barycenter-gaussian}
+{\sc M.~Knott and C.~S. Smith}, {\em On a generalization of cyclic monotonicity
+  and distances among random vectors}, Linear Algebra and its Applications, 199
+  (1994), pp.~363--371.
+
+\bibitem{Mardia-Book}
+{\sc J.T.~Kent K.V.~Mardia and J.M. Bibby}, {\em Multivariate Analysis},
+  Academic Press, 1979.
+
+\bibitem{Kwatra2003}
+{\sc V.~Kwatra, A.~Sch\"{o}dl, I.~Essa, G.~Turk, and A.~Bobick}, {\em Graphcut
+  textures: image and video synthesis using graph cuts}, in Proc. ACM SIGGRAPH,
+  2003, pp.~277--286.
+
+\bibitem{Ljung-Book}
+{\sc L.~Ljung}, {\em System Identification: Theory for the User},
+  Prentice-Hall, Englewood Cliffs, NJ, 1987.
+
+\bibitem{matusik-mixing}
+{\sc W.~Matusik, M.~Zwicker, and F.~Durand}, {\em Texture design using a
+  simplicial complex of morphable textures}, ACM Transactions on Graphics, 24
+  (2005), pp.~787--794.
+
+\bibitem{Moisan11}
+{\sc L.~Moisan}, {\em Periodic plus smooth image decomposition}, J. Math. Imag.
+  Vis., 39 (2011), pp.~161--179.
+
+\bibitem{PanditWu}
+{\sc S.~M. Pandit and S-M. Wu}, {\em Time Series and System Analysis with
+  Applications}, John Wiley \& Sons, 1983.
+
+\bibitem{Percival-Book}
+{\sc D.~B. Percival and A.~T. Walden}, {\em Spectral Analysis for Physical
+  Applications: Multitaper and Conventional Univariate Techniques}, Cambridge
+  University Press, 1993.
+
+\bibitem{dyntex}
+{\sc R.~P\'eteri, S.~Fazekas, and M.~J. Huiskes}, {\em {D}yn{T}ex: a
+  comprehensive database of dynamic textures}, Pattern Recognition Letters, 31
+  (2010), pp.~1627--1632.
+
+\bibitem{fpitie07a}
+{\sc F.~Piti\'{e}, A.~Kokaram, and R.~Dahyot}, {\em {Automated colour grading
+  using colour distribution transfer}}, Computer Vision and Image
+  Understanding,  (2007).
+
+\bibitem{portilla-parametric-model}
+{\sc J.~Portilla and E.~P. Simoncelli}, {\em A parametric texture model based
+  on joint statistics of complex wavelet coefficients}, Int. J. Comput. Vision,
+  40 (2000), pp.~49--70.
+
+\bibitem{rabin-textures}
+{\sc J.~Rabin, G.~Peyr\'e, J.~Delon, and M.~Bernot}, {\em {W}asserstein
+  barycenter and its application to texture mixing}, Proc. SSVM'11,  (2011).
+
+\bibitem{ravishanker-arfima}
+{\sc N.~Ravishanker}, {\em Differential geometry of {ARFIMA} processes},
+  Communications in Statistics, Theory and Methods, 30 (2001), pp.~1889--1902.
+
+\bibitem{ravishanker-arma}
+{\sc N.~Ravishanker, E.L. Melnick, and C-L. Tsai}, {\em Differential geometry
+  of arma models}, Journal of Time Series Analysis, 11 (1990), pp.~259--274.
+
+\bibitem{rubner-emd}
+{\sc Y.~Rubner, C.~Tomasi, and L.~J. Guibas}, {\em The earth mover's distance
+  as a metric for image retrieval}, International Journal of Computer Vision,
+  40 (2000), pp.~99--121.
+
+\bibitem{ruiters-2010-interpolation}
+{\sc R.~Ruiters, R.~Schnabel, and R.~Klein}, {\em Patch-based texture
+  interpolation}, Computer Graphics Forum (Proc. of EGSR), 29 (2010),
+  pp.~1421--1429.
+
+\bibitem{Slepian-Prolate}
+{\sc D.~{Slepian}}, {\em {Prolate spheroidal wave functions, Fourier analysis,
+  and uncertainty. V - The discrete case}}, AT T Technical Journal, 57 (1978),
+  pp.~1371--1430.
+
+\bibitem{ImageMelding12}
+{\sc D.~Soheil, E.~Shechtman, C.~Barnes, D.~B Goldman, and P.~Sen}, {\em {Image
+  Melding: Combining Inconsistent Images using Patch-based Synthesis}}, ACM
+  Transactions on Graphics (TOG) (Proceedings of SIGGRAPH 2012), 31 (2012).
+
+\bibitem{Szummer96a}
+{\sc M.~Szummer and R.~W. Picard}, {\em Temporal texture modeling}, in Proc.
+  Int. Conf. Image Processing, vol.~3, Sep. 1996, pp.~823--826.
+
+\bibitem{takatsu-wasserstein-gaussian}
+{\sc A.~Takatsu}, {\em {W}asserstein geometry of {G}aussian measures}, Osaka J.
+  Math.,  (2011), pp.~1005--1026.
+
+\bibitem{garderen-ar}
+{\sc K.~J. van Garderen}, {\em Exact geometry of first order autoregressive
+  models}, Journal of Econometrics, 95 (2000), pp.~285--331.
+
+\bibitem{Wijk1991}
+{\sc J.~J. {van Wijk} }, {\em Spot noise texture synthesis for data
+  visualization}, SIGGRAPH Comput. Graph., 25 (1991), pp.~309--318.
+
+\bibitem{villani-topics}
+{\sc C.~Villani}, {\em {Topics in Optimal Transportation}}, American
+  Mathematical Society, 2003.
+
+\bibitem{StarWei09}
+{\sc L.-Y. Wei, S.~Lefebvre, V.~Kwatra, and G.~Turk}, {\em State of the art in
+  example-based texture synthesis}, in Eurographics 2009, State of the Art
+  Report, EG-STAR, 2009.
+
+\bibitem{WeiLevoy}
+{\sc L-Y. Wei and M.~Levoy}, {\em Texture synthesis over arbitrary manifold
+  surfaces}, in Proc. ACM SIGGRAPH, 2001, pp.~355--360.
+
+\bibitem{2012-icip-dyntex}
+{\sc G-S. Xia, S.~Ferradans, G.~Peyr{\'e}, and J-F. Aujol}, {\em Compact
+  representations of stationary dynamic textures}, in Proc. ICIP'12, 2012,
+  pp.~1--4.
+
+\end{thebibliography}

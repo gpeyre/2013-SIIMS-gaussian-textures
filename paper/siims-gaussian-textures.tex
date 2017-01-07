@@ -1,0 +1,47 @@
+\documentclass[final]{siamltex}
+
+% Be sure to use PDF Latex
+\pdfoutput=1
+
+\usepackage{mystyle}
+\usepackage{multirow}
+
+\graphicspath{{./images/misc/}{./images/AR_images/}{./images/mixing_images/}{./images/fig/}{./images/barycenter_statics/}}
+
+
+\title{Synthesizing and Mixing Stationary \\ Gaussian Texture Models\thanks{This work has been supported by the European Research Council (ERC project SIGMA-Vision) and the French National Research Agency (project NatImages).}}
+
+
+
+\author{Gui-Song Xia\thanks{State Key Lab LIESMARS, Wuhan University, 129 Luoyu Road, Wuhan, 430079, China. This author completed the work while at CNRS and CEREMADE Universit\'e Paris-Dauphine.},
+\and Sira Ferradans \thanks{CNRS and CEREMADE, Universit\'e Paris-Dauphine, Place du Marechal De Lattre De Tassigny, 75775 PARIS CEDEX 16, FRANCE.}
+\and Gabriel Peyr\'e\thanks{CNRS and CEREMADE, Universit\'e Paris-Dauphine, Place du Marechal De Lattre De Tassigny, 75775 PARIS CEDEX 16, FRANCE.}
+\and Jean-Fran\c{c}ois~Aujol\thanks{IMB, UMR 5251, Universit\'e Bordeaux 1, 351 cours de la Lib\'eration F-33405 TALENCE, France. J-F Aujol is a member of Institut Universitaire de France.}
+}
+
+
+
+\begin{document}
+
+\maketitle
+
+
+\input{sections/abstract}
+\input{sections/introduction}
+\input{sections/notations}
+\input{sections/synthesis-sn}
+\input{sections/synthesis-ar}
+\input{sections/synthesis-numerics}
+\input{sections/geodesic}
+\input{sections/geodesic-numerics}
+\input{sections/barycenter}
+\input{sections/barycenter-numerics}
+\input{sections/conclusion}
+
+%\section*{Appendix: }
+%\label{app:perComponent}
+
+\bibliographystyle{siam}
+\bibliography{bibliography,dyntexture,bibliography-mixing}
+\end{document}
+

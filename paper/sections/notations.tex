@@ -1,0 +1,95 @@
+\section{Stationary Stochastic Modeling of Textures}
+\label{sec-stat-model-tetxures}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Notations}
+
+In this paper, we denote deterministic images and videos, corresponding to samples of textures, by $f \in \RR^{\U \times d}$ ($d=1$ for gray-scale data and $d=3$ for color ones). We denote by $f(p) \in \RR^d$ the value at some space or space-time pixel $p \in U$, with $ U = \{0,\ldots, N_1-1\}\times \{0,\ldots,N_2-1\} \times \{0,\ldots, N_3-1\}$, where $N_1 \times N_2$ is the spatial size of the data, and $N_3$ is the number of frames (size in time) of the data (\emph{i.e.} for static textures $N_3 = 1$).  We denote by $N=N_1 N_2 N_3$ the total number of voxels. Moreover, when we deal with space-time input data, we also rewrite the coordinates $p$ as $ p = (x, t)$, where $x \in \Ux = \{0,\ldots, N_1-1\}\times \{0,\ldots,N_2-1\}$ is the 2-D index in space and $t \in \{0,\ldots, N_3-1\}$ is the 1-D index in time. If $A$ is a complex vector or a matrix, $A^*$ denotes its complex adjoint (i.e. both transpose and conjugate).
+
+%%%
+\paragraph{Fourier transform}
+
+A basic tool for the analysis and synthesis of stationary texture models is the discrete Fourier transform. The Fourier transform $\hat f = \mathcal{F}(f) \in \CC^{\U \times d}$ of a static or dynamic texture $f \in \RR^{\U \times d}$ is
+\eql{\label{eq-fourier-transf}
+	\foralls \om \in U, \quad
+	\hat f(\om) =  \sum_{p \in U} f(p) \cdot e^{ -2 \imath \pi \dotp{p}{\om} }
+   	\in \CC^{d}
+	\qwhereq \dotp{p}{\om} = \sum_{k=1}^d \frac{\om_k p_k}{N_k},
+}
+where $\cdot$ is the entry-wise multiplication of vectors in $\CC^d$.
+The transformed texture $\hat f$ is computed in $O(N d \log(N d))$ operations using the Fast Fourier Transform (FFT), and this transform is inverted with the same complexity using the inverse discrete Fourier transform written as
+\eq{
+	\foralls p \in U, \quad
+    f(p) = \frac{1}{N} \sum_{\om \in U} \hat f(\om) \cdot e^{ 2 \imath \pi \dotp{p}{\om} }.
+}
+
+%%%
+\paragraph{Convolution}
+
+The space-time convolution of two textures $f,g \in \RR^{\U \times d}$ is defined as
+\eql{\label{eq-st-conv}
+	\foralls p \in U,
+%\; \foralls j=1,\ldots,d,
+\quad
+	(f \star g)(p) = \sum_{p' \in U} f(p-p') \cdot g(p'),
+}
+where we implicitly assume periodic boundary conditions. 
+It can be equivalently computed over the Fourier domain as
+\eql{\label{eq-st-conv-fourier}
+	\foralls \om \in U, \quad
+	\hat h(\om) =  \hat f(\om) \cdot \hat g(\om)
+	\qwhereq h = f \star g.
+}
+
+A matrix convolution kernel is $\cov = (\cov(p))_{p \in U} \in \RR^{\U \times d \times d}$ where each $\cov(p) \in \RR^{d \times d}$. The convolution between such a kernel and a texture $g \in \RR^{\U \times d}$ is defined as
+\eql{\label{eq-st-conv-kernels}
+	\foralls p \in U,  \quad
+	(\cov \star g)(p) = \sum_{p' \in U} \cov(p-p') g(p') \in \RR^d,
+}
+and can be  computed over the Fourier domain as
+\eql{\label{eq-cov-convol-fft}
+	\foralls \om \in U, \quad
+	\hat h(\om) =  \hat \cov(\om) \hat g(\om)
+	\qwhereq h = \cov \star g,
+}
+where $\hat \cov$ is obtained by applying the Fourier transform to each of the $d \times d$ entries of~$\cov$.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Stationary Gaussian Processes}
+
+We model a texture using a random vector $X$, which is a mapping $X: \Om \rightarrow \RR^{\U \times d}$ from $(\Om,\PP)$ (a fixed probability space with probability $\PP$) to $\RR^{U \times d}$. This random vector thus maps some $\xi \in \Om$ to a realization $X_\xi \in \RR^{\U \times d}$ which is a deterministic image or video denoted by $f$. Each coordinate defines a random variable $X(p): \Om \rightarrow \RR^d$.
+
+In the following, we consider a Gaussian random vector $X$, which follows a Gaussian distribution $\distr = \Nn(\Mean, \Cov)$ with mean $\Mean = \EE(X) \in \RR^{\U \times d}$ and  positive semi-definite covariance  $\Cov \in \RR^{\U d \times Ud}$
+\eq{
+	\foralls (p,p') \in U^2, \quad
+ 	\Cov(p,p')= \EE {\big[(X(p) - \Mean(p))(X(p') - \Mean(p'))^*\big]} \in \RR^{d \times d}
+}
+where $\EE$ is the expected value and $v^* \in \CC^{1 \times d}$ is the transposed complex conjugate vector of $v \in \CC^d$. This covariance $\Cov$ can be thought of as a $(Nd) \times (Nd)$ matrix or as a collection of matrices $\Cov(p,p') \in \RR^{d \times d}$ for $(p,p') \in U \times U$. The covariance can be also thought as a linear operator, and can thus be applied to a vector $f \in \RR^{\U \times d}$ as $y = \Cov f$ defined by
+\eql{\label{eq-cov-convol}
+	\foralls p \in U, \quad
+		y(p) = (\Cov f)(p) = \sum_{p' \in U} \Cov(p,p') f(p').
+}
+
+For this Gaussian texture model, stationarity means that $X$ has the same distribution as $X(\cdot + \tau)$ for any shift $\tau \in U$, where we assume periodic boundary conditions. It is also equivalent to imposing that the mean is a constant vector
+\eq{
+	\foralls p \in U, \quad
+	\Mean(p) = \mean \in \RR^d
+}
+and that the covariance matrix $\Cov$ satisfies
+\eq{
+	\foralls (p,p') \in U^2, \quad
+	\Cov(p,p') = \cov(p-p') \in \RR^{d \times d}
+}
+where $\cov \in \RR^{\U \times (d \times d)}$ is the associated convolution kernel. It means that $\Cov f = \cov \star f$ where $\star$ is the convolution \eqref{eq-st-conv-kernels} between a kernel and a texture $f  \in \RR^{\U \times d}$.
+
+
+
+%%%
+\paragraph{Distribution vs. realizations}
+
+In the following, if $\distr$ is a distribution (e.g. $\distr = \Nn(\Mean,\Cov)$), we denote $X \DistributedAs \distr$ when the random vector $X$ has distribution $\distr$. We denote $f \SampledFrom \distr$ when the (deterministic) vector $f$ is sampled according to a random vector having distribution $\distr$.
+
+
